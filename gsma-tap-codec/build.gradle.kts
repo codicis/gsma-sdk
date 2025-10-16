@@ -10,7 +10,7 @@ dependencies {
 
 asn1 {
     model {
-        register("compileAsn1") {
+        register("compileAsnTap") {
             packageName.set("io.github.codicis.gsma")
             sourceFiles.from(fileTree("src/main/asn1"))
             outputDir.set(layout.buildDirectory.dir("generated/sources/asn1/$name"))
@@ -24,17 +24,6 @@ publishing {
             from(components["java"])
         }
     }
-    repositories {
-        maven {
-            name = "CentralPortal"
-            url = uri("https://central.sonatype.com/api/v1/publish")
-            credentials {
-                username = findProperty("sonatypeUsername") as String? ?: System.getenv("SONATYPE_USERNAME")
-                password = findProperty("sonatypePassword") as String? ?: System.getenv("SONATYPE_PASSWORD")
-            }
-        }
-    }
-
 }
 testing {
     suites {
