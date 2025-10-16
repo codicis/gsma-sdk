@@ -1,3 +1,5 @@
+[![Java CI with Gradle](https://github.com/codicis/gsma-sdk/actions/workflows/gradle.yml/badge.svg)](https://github.com/codicis/gsma-sdk/actions/workflows/gradle.yml)
+
 # gsma-sdk
 JVM-based open standard implementation for GSMA TAP3, RAP, and more.
 
