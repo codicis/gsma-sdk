@@ -1,0 +1,4 @@
+= Overview
+:page-layout: default
+
+This section provides an overview of the `gsma-tap-codec`, its architecture, and usage.
