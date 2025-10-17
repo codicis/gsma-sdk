@@ -1,3 +1,8 @@
+pluginManagement {
+    plugins {
+        id("io.github.sgtsilvio.gradle.maven-central-publishing") version "0.4.1"
+    }
+}
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
