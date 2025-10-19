@@ -3,7 +3,6 @@ package io.github.codicis.gsma.tap;
 import io.github.codicis.gsma.resolver.TapFileParameterResolver;
 import io.github.codicis.gsma.resolver.TapTestFile;
 import io.github.codicis.gsma.resolver.TestResource;
-import io.github.codicis.gsma.tap.internal.TapFiles;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
