@@ -2,6 +2,14 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 [versions]
 clikt = "5.0.3"
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version = "3.5.6" }
+spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
+maven-central-publishing = { id = "io.github.sgtsilvio.gradle.maven-central-publishing", version = "0.4.1" }
+codicis-asn1 = { id = "io.github.codicis.asn1", version = "0.2.0" }
+
+
 [libraries]
 asn1-bean = { module = "com.beanit:asn1bean", version = "1.14.0" }
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }

@@ -1,8 +1,8 @@
 plugins {
     id("java-library")
     id("maven-publish")
-    id("io.github.codicis.asn1")
-    id("io.github.sgtsilvio.gradle.maven-central-publishing")
+    alias(libs.plugins.codicis.asn1)
+    alias(libs.plugins.maven.central.publishing)
     signing
 }
 
