@@ -4,6 +4,9 @@ plugins {
     signing
 }
 
+version = "0.1.0"
+group = "io.github.codicis.gsma-sdk"
+
 application {
     mainClass.set("io.github.codicis.gsma.cli.MainKt")
 }

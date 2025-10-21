@@ -11,6 +11,7 @@ version="0.1.2"
 dependencies {
     constraints {
         api(project(":gsma-tap-codec"))
+        api(project(":gsma-cli"))
     }
 }
 
