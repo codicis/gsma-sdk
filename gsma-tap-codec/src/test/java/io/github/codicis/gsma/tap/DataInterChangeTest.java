@@ -6,8 +6,8 @@ import io.github.codicis.gsma.resolver.TestResource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,15 +21,15 @@ public class DataInterChangeTest {
 
     @Test
     @DisplayName("Decode Notification TAP file")
-    public void notification(@TestResource(TapTestFile.NOTIFICATION) Path resource) {
-        int recordCount = decodeTapFile(resource);
+    public void notification(@TestResource(TapTestFile.NOTIFICATION) Path path) {
+        int recordCount = decodeTapFile(path);
         assertEquals(135, recordCount, "Unexpected record count in Notification TAP file");
     }
 
     @Test
     @DisplayName("Decode Standard TAP file")
-    public void decode(@TestResource(TapTestFile.STANDARD) Path resource) {
-        int recordCount = decodeTapFile(resource);
+    public void decode(@TestResource(TapTestFile.STANDARD) Path path) {
+        int recordCount = decodeTapFile(path);
         assertEquals(668, recordCount, "Unexpected record count in Standard TAP file");
     }
 
@@ -45,12 +45,11 @@ public class DataInterChangeTest {
 
         try (InputStream inputStream = Files.newInputStream(resource, StandardOpenOption.READ)) {
             assertNotNull(inputStream, "Failed to open TAP file: " + resource);
-
+            // Decode or process the stream here
             DataInterChange dataInterChange = new DataInterChange();
             return dataInterChange.decode(inputStream);
-
-        } catch (IOException e) {
-            throw new RuntimeException("Error reading TAP file: " + resource, e);
+        } catch (Exception e) {
+            throw new ParameterResolutionException("Failed to resolve path for resource: " + resource, e);
         }
     }
 }

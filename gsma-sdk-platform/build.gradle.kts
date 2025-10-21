@@ -1,7 +1,7 @@
 plugins {
     id("java-platform")
     id("maven-publish")
-    id("io.github.sgtsilvio.gradle.maven-central-publishing")
+    alias(libs.plugins.maven.central.publishing)
     signing
 }
 
@@ -11,6 +11,8 @@ version="0.1.3"
 dependencies {
     constraints {
         api(project(":gsma-tap-codec"))
+        api(project(":gsma-cli"))
+        api(project(":gsma-tap-json"))
     }
 }
 

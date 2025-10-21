@@ -1,6 +1,18 @@
 package io.github.codicis.gsma.tap.internal;
 
+import com.beanit.asn1bean.ber.types.BerInteger;
+import com.beanit.asn1bean.ber.types.BerOctetString;
+import com.beanit.asn1bean.ber.types.BerType;
+import io.github.codicis.gsma.tap.*;
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class BerUtils {
+    public static final DateTimeFormatter TAP_DATE_TIME = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
     /**
      * Converts a packed BCD-encoded byte array into a human-readable decimal string.
      * <p>
@@ -28,5 +40,36 @@ public class BerUtils {
             else break; // padding or invalid digit
         }
         return result.toString();
+    }
+
+    public static <T extends BerType> String toString(T berValue) {
+        return switch (berValue) {
+            case null -> "";
+            case BCDString bcdString -> bcdToStringWithPadding(bcdString.value);
+            case BerOctetString octet -> octet.value != null ? new String(octet.value) : "";
+            case BerInteger berInt -> berInt.value != null ? berInt.value.toString() : "";
+            case DateTimeLong dateTimeLong -> toZonedDateTime(dateTimeLong).toString();
+            default -> berValue.toString()
+                    .replaceAll("[\\s\\r\\n]", "")
+                    .replaceAll("^\\{", "")
+                    .replaceAll("}$", "");
+        };
+
+    }
+
+    public static <T extends BerOctetString> String berOctetStringToString(T berOctetString) {
+        return berOctetString == null ? "" : new String(berOctetString.value);
+    }
+
+    public static <T extends AsciiString> String asciiStringToString(T berOctetString) {
+        return berOctetString == null ? "" : new String(berOctetString.value);
+    }
+
+    public static <T extends DateTimeLong> ZonedDateTime toZonedDateTime(T type) {
+        LocalTimeStamp localTimeStamp = type.getLocalTimeStamp();
+        UtcTimeOffset utcTimeOffset = type.getUtcTimeOffset();
+        LocalDateTime dtm = LocalDateTime.parse(berOctetStringToString(localTimeStamp), TAP_DATE_TIME);
+        ZoneOffset zoneOffset = ZoneOffset.of(asciiStringToString(utcTimeOffset));
+        return ZonedDateTime.of(dtm, zoneOffset);
     }
 }

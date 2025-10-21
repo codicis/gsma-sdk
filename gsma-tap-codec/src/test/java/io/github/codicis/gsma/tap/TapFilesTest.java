@@ -30,7 +30,7 @@ class TapFilesTest {
     @DisplayName("Read TAP file")
     public void read(@TestResource(TapTestFile.STANDARD) Path path) {
         Assertions.assertDoesNotThrow(() -> {
-            DataInterChange dataInterChange = TapFiles.read(path, StandardOpenOption.READ).orElse(null);
+            DataInterChange dataInterChange = TapFiles.read(path).orElse(null);
             Assertions.assertNotNull(dataInterChange);
         });
     }
@@ -39,7 +39,8 @@ class TapFilesTest {
     @DisplayName("Read BatchControlInfo")
     public void batchInfo(@TestResource(TapTestFile.STANDARD) Path path) {
         Assertions.assertDoesNotThrow(() -> {
-            BatchControlInfo batchControlInfo = TapFiles.batchInfo(path, StandardOpenOption.READ).orElseGet(() -> null);
+            BatchControlInfo batchControlInfo = TapFiles.batchInfo(path).orElse(null);
+            Assertions.assertNotNull(batchControlInfo);
             Assertions.assertEquals("AUTPT", new String(batchControlInfo.getSender().value));
             Assertions.assertEquals("EUR01", new String(batchControlInfo.getRecipient().value));
             Assertions.assertNotNull(batchControlInfo);
@@ -50,7 +51,7 @@ class TapFilesTest {
     @DisplayName("Read AccountingInfo")
     public void accountingInfo(@TestResource(TapTestFile.STANDARD) Path path) {
         Assertions.assertDoesNotThrow(() -> {
-            AccountingInfo accountingInfo = TapFiles.accountingInfo(path, StandardOpenOption.READ).orElseGet(() -> null);
+            AccountingInfo accountingInfo = TapFiles.accountingInfo(path).orElse(null);
             Assertions.assertNotNull(accountingInfo);
         });
     }
@@ -59,7 +60,7 @@ class TapFilesTest {
     @DisplayName("Read NetworkInfo")
     public void networkInfo(@TestResource(TapTestFile.STANDARD) Path path) {
         Assertions.assertDoesNotThrow(() -> {
-            NetworkInfo networkInfo = TapFiles.networkInfo(path, StandardOpenOption.READ).orElseGet(() -> null);
+            NetworkInfo networkInfo = TapFiles.networkInfo(path).orElse(null);
             Assertions.assertNotNull(networkInfo);
         });
     }
@@ -68,7 +69,7 @@ class TapFilesTest {
     @DisplayName("Read AuditControlInfo")
     public void auditInfo(@TestResource(TapTestFile.STANDARD) Path path) {
         Assertions.assertDoesNotThrow(() -> {
-            AuditControlInfo auditInfo = TapFiles.auditInfo(path, StandardOpenOption.READ).orElseGet(() -> null);
+            AuditControlInfo auditInfo = TapFiles.auditInfo(path).orElse(null);
             Assertions.assertNotNull(auditInfo);
         });
     }

@@ -3,6 +3,18 @@
 [versions]
 google-auto-service = "1.1.1"
 javapoetVersion = "1.13.0"
+clikt = "5.0.3"
+jackson-databind="3.0.0"
+junit = "6.0.0"
+spark = "4.0.1"
+
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version = "3.5.6" }
+spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
+maven-central-publishing = { id = "io.github.sgtsilvio.gradle.maven-central-publishing", version = "0.4.1" }
+codicis-asn1 = { id = "io.github.codicis.asn1", version = "0.2.0" }
+
 
 [libraries]
 asn1-bean = { module = "com.beanit:asn1bean", version = "1.14.0" }
@@ -11,3 +23,16 @@ google-auto-service-annotations = { module = "com.google.auto.service:auto-servi
 google-auto-service = { module = "com.google.auto.service:auto-service", version.ref = "google-auto-service" }
 
 javapoet = { module = "com.squareup:javapoet", version.ref = "javapoetVersion" }
+clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
+jackson-databind = { module = "tools.jackson.core:jackson-databind", version.ref = "jackson-databind" }
+jackson-dataformat-csv = { module = "tools.jackson.dataformat:jackson-dataformat-csv", version.ref = "jackson-databind" }
+
+spark-core = { module = "org.apache.spark:spark-core_2.13", version.ref = "spark" }
+spark-sql = { module = "org.apache.spark:spark-sql_2.13", version.ref = "spark" }
+hadoop-bare-naked-local-fs = { module = "com.globalmentor:hadoop-bare-naked-local-fs", version ="0.1.0"}
+
+typesafe-config = { module = "com.typesafe:config", version = "1.4.4" }
+
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
