@@ -6,12 +6,12 @@ import io.github.codicis.gsma.resolver.TestResource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
+import java.net.URI;
+import java.nio.file.*;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -21,36 +21,42 @@ public class DataInterChangeTest {
 
     @Test
     @DisplayName("Decode Notification TAP file")
-    public void notification(@TestResource(TapTestFile.NOTIFICATION) Path resource) {
+    public void notification(@TestResource(TapTestFile.NOTIFICATION) URI resource) {
         int recordCount = decodeTapFile(resource);
         assertEquals(135, recordCount, "Unexpected record count in Notification TAP file");
     }
 
     @Test
     @DisplayName("Decode Standard TAP file")
-    public void decode(@TestResource(TapTestFile.STANDARD) Path resource) {
+    public void decode(@TestResource(TapTestFile.STANDARD) URI resource) {
         int recordCount = decodeTapFile(resource);
         assertEquals(668, recordCount, "Unexpected record count in Standard TAP file");
     }
 
     @Test
     @DisplayName("Decode Content Transaction TAP file")
-    public void contentTransaction(@TestResource(TapTestFile.CONTENT_TRANSACTION) Path resource) {
+    public void contentTransaction(@TestResource(TapTestFile.CONTENT_TRANSACTION) URI resource) {
         int recordCount = decodeTapFile(resource);
         assertEquals(4448, recordCount, "Unexpected record count in Content Transaction TAP file");
     }
 
-    private int decodeTapFile(Path resource) {
+    private int decodeTapFile(URI resource) {
         assertNotNull(resource, "Injected TAP file path is null");
 
-        try (InputStream inputStream = Files.newInputStream(resource, StandardOpenOption.READ)) {
-            assertNotNull(inputStream, "Failed to open TAP file: " + resource);
+        try (FileSystem fileSystem = FileSystems.newFileSystem(resource, Map.of())) {
+            String[] parts = resource.toString().split("!");
+            String entryPath = parts[1];
+            Path pathInZip = fileSystem.getPath(entryPath);
 
-            DataInterChange dataInterChange = new DataInterChange();
-            return dataInterChange.decode(inputStream);
+            try (InputStream inputStream = Files.newInputStream(pathInZip, StandardOpenOption.READ)) {
+                assertNotNull(inputStream, "Failed to open TAP file: " + resource);
+                // Decode or process the stream here
+                DataInterChange dataInterChange = new DataInterChange();
+                return dataInterChange.decode(inputStream);
+            }
 
-        } catch (IOException e) {
-            throw new RuntimeException("Error reading TAP file: " + resource, e);
+        } catch (Exception e) {
+            throw new ParameterResolutionException("Failed to resolve path for resource: " + resource, e);
         }
     }
 }

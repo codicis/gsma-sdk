@@ -1,6 +1,7 @@
 plugins {
     id("java-library")
     id("maven-publish")
+    id("java-test-fixtures")
     alias(libs.plugins.codicis.asn1)
     alias(libs.plugins.maven.central.publishing)
     signing
@@ -9,8 +10,11 @@ plugins {
 group = "io.github.codicis.gsma-sdk"
 version = "0.1.2"
 
+
 dependencies {
     api(libs.asn1.bean)
+    testFixturesImplementation(libs.junit.jupiter.api)
+    testFixturesImplementation(libs.junit.jupiter.params)
 }
 
 asn1 {
@@ -44,7 +48,7 @@ publishing {
 testing {
     suites {
         named("test", JvmTestSuite::class) {
-            useJUnitJupiter()
+            useJUnitJupiter(libs.versions.junit.get())
         }
     }
 }

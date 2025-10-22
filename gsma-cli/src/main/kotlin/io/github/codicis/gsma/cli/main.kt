@@ -62,7 +62,7 @@ class Decode : CliktCommand() {
     override fun run() {
         echo("Decoding $format file: $input")
         output?.let { echo("Writing output to: ${it.path}") }
-        val dataInterChange = TapFiles.read(input, StandardOpenOption.READ)
+        val dataInterChange = TapFiles.read(input.toUri(), StandardOpenOption.READ)
         echo(dataInterChange)
         if (output != null) {
             output!!.printWriter().use { writer -> writer.println(dataInterChange) }
@@ -130,7 +130,7 @@ class Inspect : CliktCommand(name = "inspect") {
 
     override fun run() {
         echo("Inspecting file: $input")
-        val chg = TapFiles.read(input, StandardOpenOption.READ)
+        val chg = TapFiles.read(input.toUri(), StandardOpenOption.READ)
         // TODO: Wire into header inspection logic
         echo(chg.transferBatch.batchControlInfo)
         echo(chg.transferBatch.callEventDetails.callEventDetail.size)

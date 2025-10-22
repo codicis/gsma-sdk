@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
 import java.lang.reflect.Parameter;
+import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
 
@@ -14,7 +15,7 @@ public class TapFileParameterResolver implements ParameterResolver {
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         Parameter parameter = parameterContext.getParameter();
-        return parameter.getType().equals(Path.class) &&
+        return parameter.getType().equals(URI.class) &&
                parameter.isAnnotationPresent(TestResource.class);
 
     }
@@ -30,7 +31,7 @@ public class TapFileParameterResolver implements ParameterResolver {
         }
 
         try {
-            return Path.of(resource.toURI());
+            return resource.toURI();
         } catch (Exception e) {
             throw new ParameterResolutionException("Failed to resolve path for resource: " + fullPath, e);
         }
