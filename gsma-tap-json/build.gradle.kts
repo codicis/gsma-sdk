@@ -17,7 +17,7 @@ dependencies {
 testing {
     suites {
         named("test", JvmTestSuite::class) {
-            useJUnitJupiter()
+            useJUnitJupiter(libs.versions.junit.get())
         }
     }
 }
