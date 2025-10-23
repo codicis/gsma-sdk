@@ -8,10 +8,6 @@ import tools.jackson.databind.ser.std.StdSerializer;
 
 public class NumberStringSerializer extends StdSerializer<NumberString> {
 
-    protected NumberStringSerializer(Class<NumberString> t) {
-        super(t);
-    }
-
     public NumberStringSerializer() {
         super(NumberString.class);
     }

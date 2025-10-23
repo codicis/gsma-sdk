@@ -10,12 +10,8 @@ import tools.jackson.databind.ser.std.StdSerializer;
 
 public class BCDStringSerializer extends StdSerializer<BCDString> {
 
-    protected BCDStringSerializer(Class<BCDString> t) {
-        super(t);
-    }
-
     public BCDStringSerializer() {
-        this(BCDString.class);
+        super(BCDString.class);
     }
 
     @Override

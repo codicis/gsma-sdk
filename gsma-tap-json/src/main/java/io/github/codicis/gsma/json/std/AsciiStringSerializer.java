@@ -12,14 +12,6 @@ import tools.jackson.databind.ser.std.StdSerializer;
  */
 public class AsciiStringSerializer extends StdSerializer<AsciiString> {
 
-    /**
-     * Constructs a new instance of AsciiStringSerializer.
-     *
-     * @param t The type of the AsciiString object to be serialized.
-     */
-    protected AsciiStringSerializer(Class<AsciiString> t) {
-        super(t);
-    }
 
     /**
      * Constructs a new instance of AsciiStringSerializer with an AsciiString type.

@@ -13,15 +13,6 @@ import tools.jackson.databind.ser.std.StdSerializer;
 public class BerIntegerSerializer extends StdSerializer<BerInteger> {
 
     /**
-     * Constructs a new instance of BerIntegerSerializer.
-     *
-     * @param t The type of the BerInteger object to be serialized.
-     */
-    protected BerIntegerSerializer(Class<BerInteger> t) {
-        super(t);
-    }
-
-    /**
      * Constructs a new instance of BerIntegerSerializer with a BerInteger type.
      */
     public BerIntegerSerializer() {

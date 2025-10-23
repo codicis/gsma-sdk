@@ -8,10 +8,6 @@ import tools.jackson.databind.ser.std.StdSerializer;
 
 public class BerOctetStringSerializer extends StdSerializer<BerOctetString> {
 
-    protected BerOctetStringSerializer(Class<BerOctetString> t) {
-        super(t);
-    }
-
     public BerOctetStringSerializer() {
         super(BerOctetString.class);
     }
