@@ -12,6 +12,7 @@ dependencies {
     constraints {
         api(project(":gsma-tap-codec"))
         api(project(":gsma-cli"))
+        api(project(":gsma-tap-json"))
     }
 }
 
