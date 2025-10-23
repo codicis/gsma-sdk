@@ -17,6 +17,7 @@ codicis-asn1 = { id = "io.github.codicis.asn1", version = "0.2.0" }
 asn1-bean = { module = "com.beanit:asn1bean", version = "1.14.0" }
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
 jackson-databind = { module = "tools.jackson.core:jackson-databind", version.ref = "jackson-databind" }
+jackson-dataformat-csv = { module = "tools.jackson.dataformat:jackson-dataformat-csv", version.ref = "jackson-databind" }
 
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
