@@ -13,4 +13,5 @@ application {
 dependencies {
     implementation(libs.clikt)
     implementation(project(":gsma-tap-codec"))
+    implementation(project(":gsma-tap-json"))
 }
