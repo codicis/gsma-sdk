@@ -8,12 +8,12 @@ import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.nio.channels.Channels;
 import java.nio.channels.SeekableByteChannel;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.OpenOption;
+import java.nio.file.Path;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -22,12 +22,12 @@ public final class BerTypeReader {
     private BerTypeReader() {
     }
 
-    public static <T extends BerType> T read(URI uri, Supplier<T> factory, OpenOption... options) throws IOException {
-        return decodeByTag(uri, null, factory, options).orElse(null);
+    public static <T extends BerType> T read(Path path, Supplier<T> factory, OpenOption... options) throws IOException {
+        return decodeByTag(path, null, factory, options).orElse(null);
     }
 
-    public static <T extends BerType> Optional<T> readByTag(URI uri, BerTag tag, Supplier<T> factory, OpenOption... options) throws IOException {
-        return decodeByTag(uri, tag, factory, options);
+    public static <T extends BerType> Optional<T> readByTag(Path path, BerTag tag, Supplier<T> factory, OpenOption... options) throws IOException {
+        return decodeByTag(path, tag, factory, options);
     }
 
     public static List<BerTag> scanTags(Path path, OpenOption... options) throws IOException {
@@ -35,35 +35,7 @@ public final class BerTypeReader {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private static <T extends BerType> Optional<T> decodeByTag(URI uri, BerTag tag, Supplier<T> factory, OpenOption... options) throws IOException {
-        String scheme = uri.getScheme();
-        if ("jar".equals(scheme)) {
-            try (FileSystem fileSystem = FileSystems.newFileSystem(uri, Map.of())) {
-                String ssp = uri.getSchemeSpecificPart();
-                int separator = ssp.indexOf("!/");
-                if (separator == -1) {
-                    throw new IllegalArgumentException("Invalid JAR URI: " + uri);
-                }
-                String entryPath = ssp.substring(separator + 2);
-                Path path = fileSystem.getPath(entryPath);
-                return readByTag(path, tag, factory, options);
-            }
-        }
-
-        if ("file".equals(scheme)) {
-            Path path = Paths.get(uri);
-            return readByTag(path, tag, factory, options);
-        }
-
-        // Fallback for other providers (e.g., Jimfs, S3, Hadoop)
-        try (FileSystem fs = FileSystems.newFileSystem(uri, Map.of())) {
-            Path path = fs.getPath(uri.getPath());
-            return readByTag(path, tag, factory, options);
-        }
-    }
-
-
-    private static <T extends BerType> Optional<T> readByTag(Path path, BerTag tag, Supplier<T> factory, OpenOption... options) throws IOException {
+    private static <T extends BerType> Optional<T> decodeByTag(Path path, BerTag tag, Supplier<T> factory, OpenOption... options) throws IOException {
         // TLV-aware selective decoder (as discussed earlier)
         try (SeekableByteChannel sbc = Files.newByteChannel(path, options);
              InputStream raw = Channels.newInputStream(sbc);

@@ -7,19 +7,20 @@ import io.github.codicis.gsma.json.std.*;
 import io.github.codicis.gsma.tap.AsciiString;
 import io.github.codicis.gsma.tap.BCDString;
 import io.github.codicis.gsma.tap.NumberString;
-import tools.jackson.core.JacksonException;
+import io.github.codicis.gsma.tap.spi.Transformer;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.module.SimpleModule;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.Map;
 
-public class TapJsonService {
+public class JsonTransformer implements Transformer {
     private final JsonMapper mapper;
+    private boolean prettyPrint = false;
 
-    public TapJsonService() {
+    public JsonTransformer() {
         this.mapper = init();
     }
+
 
     private JsonMapper init() {
         SimpleModule simpleModule = new SimpleModule();
@@ -34,12 +35,21 @@ public class TapJsonService {
                 .build();
     }
 
-    public <T extends BerType> String toJson(T o, boolean pretty) throws JacksonException {
-        if (pretty) return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(o);
-        return mapper.writeValueAsString(o);
+    @Override
+    public String getName() {
+        return "Json";
     }
 
-    public <T extends BerType> void writeJsonToFile(T object, File file, boolean pretty) throws IOException {
-        mapper.writerWithDefaultPrettyPrinter().writeValue(file, object);
+    @Override
+    public String transform(BerType input) throws Exception {
+        if (prettyPrint) return mapper.writer().withDefaultPrettyPrinter().writeValueAsString(input);
+        return mapper.writeValueAsString(input);
+    }
+
+    @Override
+    public void configure(Map<String, Object> options) {
+        if (options.containsKey("prettyPrint")) {
+            this.prettyPrint = Boolean.parseBoolean(options.get("prettyPrint").toString());
+        }
     }
 }

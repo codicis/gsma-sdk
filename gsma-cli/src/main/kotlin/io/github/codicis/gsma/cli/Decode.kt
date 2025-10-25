@@ -7,10 +7,7 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.enum
 import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.path
-import io.github.codicis.gsma.json.TapJsonService
-import io.github.codicis.gsma.tap.DataInterChange
 import io.github.codicis.gsma.tap.TapFiles
-import java.nio.file.StandardOpenOption
 
 class Decode : CliktCommand() {
     override fun help(context: Context): String {
@@ -24,20 +21,11 @@ class Decode : CliktCommand() {
     override fun run() {
         echo("Decoding file: ${input.toUri()}")
         output?.let { echo("Writing output to: ${it.path}") }
-        val dataInterChange = TapFiles.read(input.toUri(), StandardOpenOption.READ)
-        var result: String
-        when (format) {
-            Format.Json -> {
-                result = TapJsonService().toJson<DataInterChange>(dataInterChange, false)
-            }
-
-            Format.`Json-pretty` -> {
-                result = TapJsonService().toJson<DataInterChange>(dataInterChange, true)
-            }
-
-            Format.Text -> {
-                result = dataInterChange.toString()
-            }
+        val dataInterChange = TapFiles.read(input)
+        val result: String = when (format) {
+            Format.Json -> TapFiles.transform(input, "Json", mapOf()) as String
+            Format.`Json-pretty` -> TapFiles.transform(input, "Json", mapOf("prettyPrint" to true)) as String
+            Format.Text -> dataInterChange.toString()
         }
         if (output != null) {
             output!!.printWriter().use { writer -> writer.println(result) }
