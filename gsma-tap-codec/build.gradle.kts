@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "io.github.codicis.gsma-sdk"
-version = "0.1.2"
+version = "0.1.3"
 
 dependencies {
     api(libs.asn1.bean)
