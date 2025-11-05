@@ -11,6 +11,8 @@ version = "0.1.3"
 
 dependencies {
     api(libs.asn1.bean)
+    compileOnly(project(":gsma-ber-processor"))
+    annotationProcessor(project(":gsma-ber-processor"))
 }
 
 asn1 {

@@ -11,4 +11,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "gsma-sdk"
 include("gsma-tap-codec")
+include("gsma-ber-processor")
 include("gsma-sdk-platform")
