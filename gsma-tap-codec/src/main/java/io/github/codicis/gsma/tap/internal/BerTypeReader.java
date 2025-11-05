@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -76,7 +77,28 @@ public final class BerTypeReader {
     }
 
     public static List<BerTag> scanTags(Path path, OpenOption... options) throws IOException {
-        // Lightweight tag scanner
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<BerTag> tags = new ArrayList<>();
+
+        try (InputStream in = new BufferedInputStream(openPossiblyCompressed(path, options))) {
+            while (in.available() > 0) {
+                // Decode tag
+                BerTag berTag = new BerTag();
+                int tagBytes = berTag.decode(in);
+                tags.add(berTag);
+
+                // Decode length
+                BerLength berLength = new BerLength();
+                int lengthBytes = berLength.decode(in);
+
+                // Skip over the value payload
+                long toSkip = berLength.val;
+                long skipped = in.skip(toSkip);
+                if (skipped < toSkip) {
+                    throw new EOFException("Unexpected end of stream while skipping payload");
+                }
+            }
+        }
+        return tags;
+
     }
 }
