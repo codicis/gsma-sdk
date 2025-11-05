@@ -8,33 +8,45 @@ import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.channels.Channels;
-import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.zip.GZIPInputStream;
 
 public final class BerTypeReader {
 
     private BerTypeReader() {
     }
 
-    public static <T extends BerType> T read(Path path, Supplier<T> factory, OpenOption... options) throws IOException {
-        try (InputStream in = new BufferedInputStream(Files.newInputStream(path, options))) {
-            T instance = factory.get();
-            instance.decode(in);
-            return instance;
-        }
+    private static InputStream openPossiblyCompressed(Path path, OpenOption... options) throws IOException {
+        InputStream fileIn = new BufferedInputStream(Files.newInputStream(path, options));
+        fileIn.mark(2);
+        int b1 = fileIn.read();
+        int b2 = fileIn.read();
+        fileIn.reset();
+
+        return (b1 == 0x1f && b2 == 0x8b)
+                ? new GZIPInputStream(fileIn)
+                : fileIn;
     }
 
-    public static <T extends BerType> Optional<T> readByTag(Path path, BerTag tag, Supplier<T> factory, OpenOption... options) throws IOException {
+    public static <T extends BerType> Optional<T> readByTag(
+            Path path,
+            BerTag tag,
+            Supplier<T> factory,
+            OpenOption... options
+    ) throws IOException {
         // TLV-aware selective decoder (as discussed earlier)
-        try (SeekableByteChannel sbc = Files.newByteChannel(path, options);
-             InputStream raw = Channels.newInputStream(sbc);
-             BufferedInputStream in = new BufferedInputStream(raw)) {
+        try (InputStream in = new BufferedInputStream(openPossiblyCompressed(path, options))) {
+            if (tag == null) {
+                // full decode
+                T instance = factory.get();
+                instance.decode(in);
+                return Optional.of(instance);
+            }
 
             while (in.available() > 0) {
                 in.mark(32); // Ensure enough bytes TVL (tag [1-4] + length [1-5] + Value [?])

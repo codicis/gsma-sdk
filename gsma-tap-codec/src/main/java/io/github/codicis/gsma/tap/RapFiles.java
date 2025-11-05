@@ -6,13 +6,14 @@ import io.github.codicis.gsma.tap.internal.BerTypeReader;
 import java.io.IOException;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
+import java.util.Optional;
 
 public class RapFiles {
 
     private RapFiles() {
     }
 
-    public static RapDataInterChange read(Path path, OpenOption... options) throws IOException {
-        return BerTypeReader.read(path, RapDataInterChange::new, options);
+    public static Optional<RapDataInterChange> read(Path path, OpenOption... options) throws IOException {
+        return BerTypeReader.readByTag(path, null, RapDataInterChange::new, options);
     }
 }

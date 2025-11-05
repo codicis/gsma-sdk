@@ -18,7 +18,7 @@ class TapFilesTest {
     @DisplayName("Read TAP file")
     public void read(@TestResource(TapTestFile.STANDARD) Path path) {
         Assertions.assertDoesNotThrow(() -> {
-            DataInterChange dataInterChange = TapFiles.read(path, StandardOpenOption.READ);
+            DataInterChange dataInterChange = TapFiles.read(path, StandardOpenOption.READ).orElse(null);
             Assertions.assertNotNull(dataInterChange);
         });
     }

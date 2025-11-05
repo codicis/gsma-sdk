@@ -11,8 +11,8 @@ public class TapFiles {
     private TapFiles() {
     }
 
-    public static DataInterChange read(Path path, OpenOption... options) throws IOException {
-        return BerTypeReader.read(path, DataInterChange::new, options);
+    public static Optional<DataInterChange> read(Path path, OpenOption... options) throws IOException {
+        return BerTypeReader.readByTag(path, null, DataInterChange::new, options);
     }
 
     public static Optional<BatchControlInfo> batchInfo(Path path, OpenOption... options) throws IOException {
