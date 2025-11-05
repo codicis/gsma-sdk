@@ -1,8 +1,10 @@
 package io.github.codicis.gsma.tap;
 
+import com.beanit.asn1bean.ber.BerTag;
 import io.github.codicis.gsma.resolver.TapFileParameterResolver;
 import io.github.codicis.gsma.resolver.TapTestFile;
 import io.github.codicis.gsma.resolver.TestResource;
+import io.github.codicis.gsma.tap.internal.BerTypeReader;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,9 +12,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 
 @ExtendWith(TapFileParameterResolver.class)
 class TapFilesTest {
+
+    @Test
+    @DisplayName("Scan Tags")
+    public void scanTags(@TestResource(TapTestFile.STANDARD) Path path) {
+        Assertions.assertDoesNotThrow(() -> {
+            List<BerTag> berTags = BerTypeReader.scanTags(path);
+            Assertions.assertNotNull(berTags);
+        });
+    }
 
     @Test
     @DisplayName("Read TAP file")
