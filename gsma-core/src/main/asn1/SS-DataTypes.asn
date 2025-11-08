@@ -1,9 +1,12 @@
--- $Id$
--- 3GPP TS 24.080 V9.1.0 (2010-03)
--- 4.4.2	ASN.1 data types
+-- **************************************************************
+--
+-- SS-DataTypes
+--
+-- **************************************************************
+
 SS-DataTypes {
    itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Access (2) modules (3)
-   ss-DataTypes (2) version10 (10)}
+   ss-DataTypes (2) version12 (12)}
 
 DEFINITIONS
 
@@ -18,21 +21,20 @@ IMPORTS
 SS-Code
 FROM MAP-SS-Code {
    itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3)
-   map-SS-Code (15) version10 (10)}
+   map-SS-Code (15) version12 (12)}
 
 -- imports MAP-SS-DataTypes
 SS-Status, USSD-DataCodingScheme, USSD-String, CCBS-Feature
 -- USSD-DataCodingScheme, USSD-String were introduced because of CNAP.
 FROM MAP-SS-DataTypes {
    itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3)
-   map-SS-DataTypes (14) version10 (10)}
+   map-SS-DataTypes (14) version12 (12)}
 
---- GSN-Address, WS fix, fault in spec this is now in CommonDataTypes
 CUG-Index,
 NotificationToMSUser
 FROM MAP-MS-DataTypes {
    itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3)
-   map-MS-DataTypes (11) version10 (10)}
+   map-MS-DataTypes (11) version12 (12)}
 
 maxSignalInfoLength,
 ISDN-AddressString,
@@ -41,11 +43,11 @@ AlertingPattern,
 LCSClientExternalID,
 AddressString,
 LCSServiceTypeID,
-GSN-Address, -- WS fix
-AgeOfLocationInformation
+AgeOfLocationInformation,
+GSN-Address
 FROM MAP-CommonDataTypes {
    itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3)
-   map-CommonDataTypes (18) version10 (10)}
+   map-CommonDataTypes (18) version12 (12)}
 
 LocationType,
 DeferredLocationEventType,
@@ -67,7 +69,7 @@ SequenceNumber
 
 FROM MAP-LCS-DataTypes {
    itu-t identified-organization (4) etsi (0) mobileDomain (0)
-   gsm-Network (1) modules (3) map-LCS-DataTypes (25) version10 (10)}
+   gsm-Network (1) modules (3) map-LCS-DataTypes (25) version12 (12)}
 
 ;
 
@@ -276,7 +278,6 @@ LocationNotificationArg	::= SEQUENCE {
 -- data value.
 
 
-
 LocationNotificationRes	::= SEQUENCE {
 	verificationResponse		[0]	VerificationResponse OPTIONAL,
 	...}
@@ -336,7 +337,6 @@ LCS-MOLRArg	::= SEQUENCE {
 -- ganssAssistanceData shall not be included for E-UTRAN access.
 
 
-
 MOLR-Type::= ENUMERATED {
 	locationEstimate			(0),
 	assistanceData				(1),
@@ -392,7 +392,6 @@ PositioningProtocolPDU ::= OCTET STRING
 maxNumLPPMsg INTEGER ::= 3
 
 
-
 LCS-MOLRRes::= SEQUENCE {
 	locationEstimate		[0]	Ext-GeographicalInformation		OPTIONAL,
 	decipheringKeys			[1] DecipheringKeys					OPTIONAL,
@@ -426,7 +425,6 @@ LCS-MOLRRes::= SEQUENCE {
 -- reportingPLMNList shall not be included for E-UTRAN access.
 
 
-
 DecipheringKeys::= OCTET STRING (SIZE (15))
 -- Octets in DecipheringKeys are coded in the same way as the octets 3 to 17 of Deciphering Key IE
 -- in 3GPP TS 49.031 [14]. I.e. these octets contain Current Deciphering Key, Next Deciphering Key and 
@@ -450,7 +448,6 @@ LCS-AreaEventCancellationArg	::= SEQUENCE {
 	h-gmlc-address				[1]	GSN-Address,
 	... }
 
-
 LCS-PeriodicLocationRequestArg	::= SEQUENCE {
 	referenceNumber		[0] LCS-ReferenceNumber,
 	periodicLDRInfo		[1]	PeriodicLDRInfo,
@@ -461,11 +458,9 @@ LCS-PeriodicLocationRequestArg	::= SEQUENCE {
 	reportingPLMNList	[6]	ReportingPLMNList		OPTIONAL,
 	... }
 
-
 LCS-PeriodicLocationRequestRes	::= SEQUENCE {
 	mo-lrShortCircuit	[0]	NULL					OPTIONAL,
 	... }
-
 
 LCS-LocationUpdateArg	::= SEQUENCE {
 	referenceNumber		[0] LCS-ReferenceNumber		OPTIONAL,
@@ -485,6 +480,5 @@ LCS-PeriodicLocationCancellationArg	::= SEQUENCE {
 	referenceNumber		[0] LCS-ReferenceNumber,
 	h-gmlc-address		[1]	GSN-Address				OPTIONAL,
 	... }
-
 
 END

@@ -1,0 +1,22 @@
+Attribute-ASN1Module {joint-iso-itu-t ms(9) smi(3) part2(2) asn1Module(2) 1}
+DEFINITIONS IMPLICIT TAGS ::=
+BEGIN
+
+ExtensionIdentifier ::= OBJECT IDENTIFIER
+
+ExtensionValue ::= CHOICE {
+  utf8String   UTF8String,
+  integer      INTEGER,
+  octets       OCTET STRING,
+  boolean      BOOLEAN,
+  null         NULL
+  -- Add more types as needed based on your actual extension set
+}
+
+ManagementExtension ::= SEQUENCE {
+  identifier    ExtensionIdentifier,
+  significance  [1] IMPLICIT BOOLEAN DEFAULT FALSE,
+  information   [2] ExtensionValue
+}
+
+END
