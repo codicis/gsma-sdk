@@ -30,6 +30,10 @@ public class TapFiles {
         return BerTypeReader.readByTag(path, NetworkInfo.tag, NetworkInfo::new, options);
     }
 
+    public static Optional<AuditControlInfo> auditInfo(Path path, OpenOption... options) throws IOException {
+        return BerTypeReader.readByTag(path, AuditControlInfo.tag, AuditControlInfo::new, options);
+    }
+
     public static Object transform(Path path, String formatter, Map<String,Object> options) throws Exception {
         DataInterChange dataInterChange = BerTypeReader.readByTag(path, null, DataInterChange::new, StandardOpenOption.READ).orElse(null);
         return TransformerRegistry.getInstance().transform(dataInterChange, formatter, options);
