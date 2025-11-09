@@ -4,6 +4,9 @@
 google-auto-service = "1.1.1"
 javapoetVersion = "1.13.0"
 
+[plugins]
+antora = { id = "org.antora", version = "1.0.0" }
+
 [libraries]
 asn1-bean = { module = "com.beanit:asn1bean", version = "1.14.0" }
 
