@@ -1,0 +1,10 @@
+== Diameter Credit-Control Application (8506)
+
+++++
+include::example$diameter/rfc8506.htm[]
+++++
+
+== Diameter Credit-Control Application (4006)
+++++
+include::example$diameter/rfc4006.html[]
+++++

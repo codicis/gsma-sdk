@@ -1,0 +1,3 @@
+:page-layout: default
+
+Welcome to the documentation for `gsma-sdk`.

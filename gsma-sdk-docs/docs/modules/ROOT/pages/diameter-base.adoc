@@ -1,0 +1,4 @@
+== Diameter Base Protocol
+++++
+include::example$diameter/rfc3588.html[]
+++++

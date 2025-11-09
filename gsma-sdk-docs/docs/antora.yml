@@ -1,0 +1,6 @@
+name: gsma-sdk-docs
+title: GSMA SDK Docs
+version: 1.0
+start_page: index.adoc
+nav:
+  - modules/ROOT/nav.adoc

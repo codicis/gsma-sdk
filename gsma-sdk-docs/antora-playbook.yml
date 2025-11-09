@@ -2,9 +2,13 @@ site:
   title: Antora Demo Site
   # the 404 page and sitemap files only get generated when the url property is set
   #url: https://antora.gitlab.io/demo/docs-site
-  start_page: gsma-tap-codec::index.adoc
+  start_page: gsma-sdk-docs::index.adoc
 content:
   sources:
+    - url: ./../
+      branches: HEAD
+      start_path: gsma-sdk-docs/docs
+      edit_url: false
     - url: ./../
       branches: HEAD
       start_path: gsma-tap-codec/docs
