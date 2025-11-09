@@ -1,0 +1,121 @@
+Diameter-Credit-Control DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+CreditControlRequest ::= SEQUENCE {
+  sessionId                          UTF8String,
+  originHost                         UTF8String,
+  originRealm                        UTF8String,
+  destinationRealm                   UTF8String,
+  authApplicationId                  INTEGER (0..4294967295),
+  serviceContextId                   UTF8String,
+  ccRequestType                      CCRequestType,
+  ccRequestNumber                    INTEGER,
+  destinationHost                    UTF8String OPTIONAL,
+  userName                           UTF8String OPTIONAL,
+  ccSubSessionId                     INTEGER OPTIONAL,
+  acctMultiSessionId                 UTF8String OPTIONAL,
+  originStateId                      INTEGER OPTIONAL,
+  eventTimestamp                     GeneralizedTime OPTIONAL,
+  subscriptionIds                    SEQUENCE OF SubscriptionId OPTIONAL,
+  serviceIdentifier                  INTEGER OPTIONAL,
+  terminationCause                   TerminationCause OPTIONAL,
+  requestedServiceUnit               RequestedServiceUnit OPTIONAL,
+  requestedAction                    RequestedAction OPTIONAL,
+  usedServiceUnits                   SEQUENCE OF UsedServiceUnit OPTIONAL,
+  multipleServicesIndicator          MultipleServicesIndicator OPTIONAL,
+  multipleServicesCreditControls     SEQUENCE OF MultipleServicesCreditControl OPTIONAL,
+  serviceParameterInfos              SEQUENCE OF ServiceParameterInfo OPTIONAL,
+  ccCorrelationId                    UTF8String OPTIONAL,
+  userEquipmentInfo                  UserEquipmentInfo OPTIONAL,
+  proxyInfos                         SEQUENCE OF ProxyInfo OPTIONAL,
+  routeRecords                       SEQUENCE OF RouteRecord OPTIONAL,
+  additionalAvps                     SEQUENCE OF AVP OPTIONAL
+}
+
+CCRequestType ::= INTEGER {
+  initialRequest(1),
+  updateRequest(2),
+  terminationRequest(3),
+  eventRequest(4)
+}
+
+TerminationCause ::= INTEGER {
+  logout(1),
+  serviceNotProvided(2),
+  bearerRelease(3),
+  administrative(4),
+  unknown(5),
+  diameterTimeout(6),
+  diameterError(7),
+  serverNotResponding(8),
+  userRequest(9)
+}
+
+RequestedAction ::= INTEGER {
+  directDebiting(0),
+  refundAccount(1),
+  checkBalance(2),
+  priceEnquiry(3)
+}
+
+MultipleServicesIndicator ::= INTEGER {
+  multipleServices(0),
+  singleService(1)
+}
+
+RequestedServiceUnit ::= SEQUENCE {
+  ccTime        INTEGER OPTIONAL,
+  ccMoney       CCMoney OPTIONAL,
+  ccTotalOctets INTEGER OPTIONAL
+}
+
+UsedServiceUnit ::= RequestedServiceUnit
+
+CCMoney ::= SEQUENCE {
+  unitValue     UnitValue,
+  currencyCode  INTEGER
+}
+
+UnitValue ::= SEQUENCE {
+  valueDigits   INTEGER,
+  exponent      INTEGER
+}
+
+SubscriptionId ::= SEQUENCE {
+  subscriptionIdType  INTEGER,
+  subscriptionIdData  UTF8String
+}
+
+MultipleServicesCreditControl ::= SEQUENCE {
+  serviceIdentifier         INTEGER OPTIONAL,
+  ratingGroup               INTEGER OPTIONAL,
+  requestedServiceUnit      RequestedServiceUnit OPTIONAL,
+  usedServiceUnit           UsedServiceUnit OPTIONAL,
+  validityTime              INTEGER OPTIONAL
+}
+
+ServiceParameterInfo ::= SEQUENCE {
+  parameterName  UTF8String,
+  parameterValue OCTET STRING
+}
+
+UserEquipmentInfo ::= SEQUENCE {
+  userEquipmentInfoType  INTEGER,
+  userEquipmentInfoValue OCTET STRING
+}
+
+ProxyInfo ::= SEQUENCE {
+  proxyHost  UTF8String,
+  proxyState UTF8String
+}
+
+RouteRecord ::= UTF8String
+
+AVP ::= SEQUENCE {
+  avpCode     INTEGER,
+  vendorId    INTEGER OPTIONAL,
+  avpValue    OCTET STRING
+}
+
+END
+
+
