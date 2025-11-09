@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<!DOCTYPE Dictionary SYSTEM "dictionary.dtd">
+
+<Dictionary>
+
+
+    <!-- User-Name
+
+       Description
+
+          This Attribute indicates the name of the user to be authenticated.
+          It MUST be sent in Access-Request packets if available.
+
+          It MAY be sent in an Access-Accept packet, in which case the
+          client SHOULD use the name returned in the Access-Accept packet in
+          all Accounting-Request packets for this session.  If the Access-
+          Accept includes Service-Type = Rlogin and the User-Name attribute,
+          a NAS MAY use the returned User-Name when performing the Rlogin
+          function.
+           The User-Name AVP (AVP Code 1) [RADIUS] is of type UTF8String, which
+           contains the User-Name, in a format consistent with the NAI
+            specification [NAI].
+
+     -->
+    <Avp Code="1" Vendor="0" Name="User-Name" Type="UTF8String" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+    <!-- User-Password
+     The User-Password AVP (AVP Code 2) is of type OctetString and
+   contains the password of the user to be authenticated, or the user's
+   input in a multi-round authentication exchange.
+
+   This AVP MUST be encrypted using one of the methods described in [2]
+   or [13]. Unless this AVP is used for one-time passwords, the User-
+   Password AVP SHOULD NOT be used in non-trusted proxy environments.
+
+   The clear-text password (prior to encryption) MUST NOT be longer than
+   128 bytes in length.
+   -->
+    <Avp Code="2" Vendor="0" Name="User-Password" Type="UTF8String" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+
+
+    <!--NAS-Port
+        The NAS-Port AVP (AVP Code 5) is of type Unsigned32 and contains the
+        physical or virtual port number of the NAS which is authenticating
+        the user.  Note that "port" is meant in its sense as a service
+        connection on the NAS, not as an IP protocol identifier.
+        Either NAS-Port or NAS-Port-Id (AVP Code 87) SHOULD be present in
+        AA-Request (AAR) commands if the NAS differentiates among its ports.
+    -->
+
+    <Avp Code="5" Vendor="0" Name="NAS-Port" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+    <!-- NAS-Port-Id
+            The NAS-Port-Id AVP (AVP Code 87) is of type UTF8String and consists
+            of ASCII text identifying the port of the NAS authenticating the
+            user.  Note that "port" is meant in its sense as a service connection
+            on the NAS, not as an IP protocol identifier.
+            Either NAS-Port or NAS-Port-Id SHOULD be present in AA-Request (AAR)
+            commands if the NAS differentiates among its ports.  NAS-Port-Id is
+            intended for use by NASes that cannot conveniently number their
+            ports.
+
+   		-->
+    <Avp Code="87" Vendor="0" Name="NAS-Port-Id" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+    <!-- Called-Station-Id
+        The Called-Station-Id AVP (AVP Code 30) is of type UTF8String and
+        allows the NAS to send the ASCII string describing the layer 2
+        address the user contacted in the request.  For dialup access, this
+        can be a phone number obtained by using Dialed Number Identification
+        (DNIS) or a similar technology.  Note that this may be different from
+        the phone number the call comes in on.  For use with IEEE 802 access,
+        the Called-Station-Id MAY contain a MAC address formatted as
+        described in [RAD802.1X].  It SHOULD only be present in
+        authentication and/or authorization requests.
+
+        If the Auth-Request-Type AVP is set to authorization-only and the
+        User-Name AVP is absent, the Diameter Server MAY perform
+        authorization based on this field.  This can be used by a NAS to
+        request whether a call should be answered based on the DNIS.
+    -->
+    <Avp Code="30" Vendor="0" Name="Called-Station-Id" Type="UTF8String" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+    <!-- Calling-Station-Id */
+            The Calling-Station-Id AVP (AVP Code 31) is of type UTF8String and
+            allows the NAS to send the ASCII string describing the layer 2
+            address from which the user connected in the request.  For dialup
+            access, this is the phone number the call came from, using Automatic
+            Number Identification (ANI) or a similar technology.  For use with
+            IEEE 802 access, the Calling-Station-Id AVP MAY contain a MAC
+            address, formated as described in [RAD802.1X].  It SHOULD only be
+            present in authentication and/or authorization requests.
+            If the Auth-Request-Type AVP is set to authorization-only and the
+            User-Name AVP is absent, the Diameter Server MAY perform
+            authorization based on this field.  This can be used by a NAS to
+            request whether a call should be answered based on the layer 2
+            address (ANI, MAC Address, etc.)
+
+  		-->
+    <Avp Code="31" Vendor="0" Name="Calling-Station-Id" Type="UTF8String" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+    <!-- Framed-Protocol
+            The Framed-Protocol AVP (AVP Code 7) is of type Enumerated and
+            contains the framing to be used for framed access.  This AVP MAY be
+            present in both requests and responses.  The supported values are
+            listed in [RADIUSTypes].
+            Sub-registry: Values for RADIUS Attribute 7, Framed-Protocol
+            Reference: [RFC2865]
+    		}    -->
+    <Avp Code="7" Vendor="0" Name="Framed-Protocol" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory" >
+        <Enum Value="1" Name="PPP"/>
+        <Enum Value="2" Name="SLIP"/>
+        <Enum Value="3" Name="AppleTalk Remote Access Protocol (ARAP)"/>
+        <Enum Value="4" Name="Gandalf proprietary SingleLink/MultiLink protocol"/>
+        <Enum Value="5" Name="Xylogics proprietary IPX/SLIP"/>
+        <Enum Value="6" Name="X.75 Synchronous"/>
+        <Enum Value="7" Name="GPRS PDP Context [Moore]"/>
+    </Avp>
+
+    <!--
+        Framed-IP-Address
+        The Framed-IP-Address AVP (AVP Code 8) [RADIUS] is of type
+           OctetString and contains an IPv4 address of the type specified in the
+           attribute value to be configured for the user.  It MAY be used in an
+           authorization request as a hint to the server that a specific address
+           is desired, but the server is not required to honor the hint in the
+           corresponding response.
+
+           Two values have special significance: 0xFFFFFFFF and 0xFFFFFFFE.  The
+           value 0xFFFFFFFF indicates that the NAS should allow the user to
+           select an address (i.e., negotiated).  The value 0xFFFFFFFE indicates
+           that the NAS should select an address for the user (e.g., assigned
+           from a pool of addresses kept by the NAS).
+        -->
+
+    <Avp Code="8" Vendor="0" Name="Framed-IP-Address" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+
+<!--
+    Description
+
+         This Attribute indicates an IPv6 prefix (and corresponding route)
+         to be configured for the user.  It MAY be used in Access-Accept
+         packets, and can appear multiple times.  It MAY be used in an
+         Access-Request packet as a hint by the NAS to the server that it
+         would prefer these prefix(es), but the server is not required to
+         honor the hint.  Since it is assumed that the NAS will plumb a
+         route corresponding to the prefix, it is not necessary for the
+         server to also send a Framed-IPv6-Route attribute for the same
+         prefix.
+
+      A summary of the Framed-IPv6-Prefix Attribute format is shown below.
+      The fields are transmitted from left to right.
+
+       0                   1                   2                   3
+       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |     Type      |    Length     |  Reserved     | Prefix-Length |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                                   Prefix
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                                   Prefix
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                                   Prefix
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                                   Prefix                             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-->
+    <Avp Code="97" Vendor="0" Name="Framed-IPv6-Prefix" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+
+
+    <!-- Service-Type
+  				The Service-Type AVP (AVP Code 6) is of type Enumerated and contains
+  				the type of service the user has requested or the type of service to
+  				be provided.  One such AVP MAY be present in an authentication and/or
+  				authorization request or response.  A NAS is not required to
+  				implement all of these service types.  It MUST treat unknown or
+  				unsupported Service-Types received in a response as a failure and end
+  				the session with a DIAMETER_INVALID_AVP_VALUE Result-Code.
+  				When used in a request, the Service-Type AVP SHOULD be considered a
+  				hint to the server that the NAS believes the user would prefer the
+  				kind of service indicated.  The server is not required to honor the
+  				hint.  Furthermore, if the service specified by the server is
+  				supported, but not compatible with the current mode of access, the
+  				NAS MUST fail to start the session.  The NAS MUST also generate the
+  				appropriate error message(s).
+  				The following values have been defined for the Service-Type AVP.  The
+  				complete list of defined values can be found in [RADIUS] and
+  				[RADIUSTypes].
+  				Registry Name: Radius Attribute Values
+  				Reference: [RFC2865][RFC3575]
+  				Sub-registry: Values for RADIUS Attribute 6, Service-Type
+  				Reference: [RFC2865][RFC3575]
+  				1  Login
+  				2  Framed
+  				3  Callback Login
+  				4  Callback Framed
+  				5  Outbound
+  				6  Administrative
+  				7  NAS Prompt
+  				8  Authenticate Only
+  				9  Callback NAS Prompt
+  				10  Call Check
+  				11  Callback Administrative
+  				12  Voice           [Chiba]
+  				13  Fax             [Chiba]
+  				14  Modem Relay	    [Chiba]
+  				15  IAPP-Register   [IEEE 802.11f][Kerry]
+  				16  IAPP-AP-Check   [IEEE 802.11f][Kerry]
+  				17  Authorize Only  [RFC3576]
+  				The following values are further qualified:
+  				Login               1
+  				 The user should be connected to a host.  The message MAY
+  				 include additional AVPs defined in sections 6.16 or 6.17.
+  				Framed              2
+  				 A Framed Protocol, such as PPP or SLIP, should be started for
+  				 the User.  The message MAY include additional AVPs defined in
+  				 section 6.10, or section 7 for tunneling services.
+  				Callback Login      3
+  				 The user should be disconnected and called back, then connected
+  				 to a host.  The message MAY include additional AVPs defined in
+  				 this section.
+  				Callback Framed     4
+  				 The user should be disconnected and called back, and then a
+  				 Framed Protocol, such as PPP or SLIP, should be started for the
+  				 User.  The message MAY include additional AVPs defined in
+  				 section 6.10, or in section 7 for tunneling services.
+  	     -->
+    <Avp Code="6" Vendor="0" Name="Service-Type" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <Enum Value="1" Name="Login"/>
+        <Enum Value="2" Name="Framed"/>
+        <Enum Value="3" Name="Callback Login"/>
+        <Enum Value="4" Name="Callback Framed"/>
+        <Enum Value="5" Name="Outbound"/>
+        <Enum Value="6" Name="Administrative"/>
+        <Enum Value="7" Name="NAS Prompt"/>
+        <Enum Value="8" Name="Authenticate Only"/>
+        <Enum Value="9" Name="Callback NAS Prompt"/>
+        <Enum Value="10" Name="Call Check"/>
+        <Enum Value="11" Name="Callback Administrative"/>
+        <Enum Value="12" Name="Voice [Chiba]"/>
+        <Enum Value="13" Name="Fax [Chiba]"/>
+        <Enum Value="14" Name="Modem Relay [Chiba]"/>
+        <Enum Value="15" Name="IAPP-Register [IEEE 802.11f][Kerry]"/>
+        <Enum Value="16" Name="IAPP-AP-Check [IEEE 802.11f][Kerry]"/>
+        <Enum Value="17" Name="Authorize Only [RFC3576]"/>
+
+    </Avp>
+
+
+
+    <!--
+     NAS-Port-Type
+            The NAS-Port-Type AVP (AVP Code 61) is of type Enumerated and
+            contains the type of the port on which the NAS is authenticating the
+            user.  This AVP SHOULD be present if the NAS uses the same NAS-Port
+            number ranges for different service types concurrently.
+            The supported values are defined in [RADIUSTypes].  The following
+            list is informational and subject to change by the IANA.
+
+            http://www.iana.org/assignments/radius-types
+            Sub-registry: Values for RADIUS Attribute 61, NAS-Port-Type
+            Reference: [RFC2865]
+            Extract on 2009.06.01:
+            0      Async                                                               [RFC2865]
+            1      Sync                                                                [RFC2865]
+            2      ISDN Sync                                                           [RFC2865]
+            3      ISDN Async V.120                                                    [RFC2865]
+            4      ISDN Async V.110                                                    [RFC2865]
+            5      Virtual                                                             [RFC2865]
+            6      PIAFS                                                               [RFC2865]
+            7      HDLC Clear Channel                                                  [RFC2865]
+            8      X.25                                                                [RFC2865]
+            9      X.75                                                                [RFC2865]
+            10     G.3 Fax                                                             [RFC2865]
+            11     SDSL - Symmetric DSL                                                [RFC2865]
+            12     ADSL-CAP - Asymmetric DSL, Carrierless Amplitude Phase Modulation   [RFC2865]
+            13     ADSL-DMT - Asymmetric DSL, Discrete Multi-Tone                      [RFC2865]
+            14     IDSL - ISDN Digital Subscriber Line                                 [RFC2865]
+            15     Ethernet                                                            [RFC2865]
+            16     xDSL - Digital Subscriber Line of unknown type                      [RFC2865]
+            17     Cable                                                               [RFC2865]
+            18     Wireless - Other                                                    [RFC2865]
+            19     Wireless - IEEE 802.11                                              [RFC2865]
+            20     Token-Ring                                                          [RFC3580]
+            21     FDDI                                                                [RFC3580]
+            22     Wireless - CDMA2000                                                 [McCann]
+            23     Wireless - UMTS                                                     [McCann]
+            24     Wireless - 1X-EV                                                    [McCann]
+            25     IAPP                                                                [IEEE 802.11F][Kerry]
+            26     FTTP - Fiber to the Premises                                        [Nyce]
+            27     Wireless - IEEE 802.16                                              [IEEE 802.16]          12 December 2006
+            28     Wireless - IEEE 802.20                                              [IEEE 802.20]          12 December 2006
+            29     Wireless - IEEE 802.22                                              [IEEE 802.22]          12 December 2006
+            30     PPPoA - PPP over ATM                                                [RFC4603]
+            31     PPPoEoA - PPP over Ethernet over ATM                                [RFC4603]
+            32     PPPoEoE - PPP over Ethernet over Ethernet                           [RFC4603]
+            33     PPPoEoVLAN - PPP over Ethernet over VLAN                            [RFC4603]
+            34     PPPoEoQinQ - PPP over Ethernet over IEEE 802.1QinQ                  [RFC4603]
+            35     xPON - Passive Optical Network                                      [Hublet][Yan]           19 June 2007
+    -->
+
+    <Avp Code="61" Vendor="0" Name="NAS-Port-Type" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+
+
+    <!--
+            Framed-Interface-Id
+    				The Framed-Interface-Id AVP (AVP Code 96) is of type Unsigned64 and
+    				contains the IPv6 interface identifier to be configured for the user.
+    				It MAY be used in authorization requests as a hint to the server that
+    				a specific interface id is desired, but the server is not required to
+    				honor the hint in the corresponding response.
+    -->
+
+    <Avp Code="96" Vendor="0" Name="Framed-Interface-Id" Type="Unsigned64" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+
+
+</Dictionary>

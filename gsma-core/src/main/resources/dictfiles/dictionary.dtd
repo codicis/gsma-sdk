@@ -1,0 +1,19 @@
+
+<!ELEMENT Dictionary (Avp)*>
+<!ELEMENT Avp (Enum|GroupAvp)*>
+<!ATTLIST Avp
+        Code CDATA #REQUIRED
+        Vendor CDATA #REQUIRED
+        Name CDATA #REQUIRED
+        Type CDATA #REQUIRED
+        FlagsMask (Vendor|Mandatory|VendorMandatory) "VendorMandatory"
+        FlagsValues (Vendor|Mandatory|VendorMandatory|None) "None"
+>
+<!ELEMENT Enum (#PCDATA)>
+<!ATTLIST Enum
+        Name CDATA #REQUIRED
+        Value CDATA #REQUIRED>
+<!ELEMENT GroupAvp (#PCDATA)>
+<!ATTLIST GroupAvp
+        Name CDATA #REQUIRED
+        Necissity CDATA #REQUIRED>

@@ -1,0 +1,79 @@
+private static void initializeDictionary() throws Exception {
+        if (!initialized) {
+            ImportDictionary.addDictionary(ImportDictionary.class.getPackage(), "dictfiles/core_dict.xml");
+            ImportDictionary.addDictionary(ImportDictionary.class.getPackage(), "dictfiles/dcca_3gpp_dict.xml");
+            ImportDictionary.addDictionary(ImportDictionary.class.getPackage(), "dictfiles/dcca_dict.xml");
+            ImportDictionary.addDictionary(ImportDictionary.class.getPackage(), "dictfiles/nasreq_dict.xml");
+            initialized = true;
+        }
+}
+
+
+AVP ::= SEQUENCE {
+  avpCode     INTEGER,         -- Unique AVP Code (e.g., 263 for Session-Id)
+  avpFlags    BIT STRING,      -- Flags: M (Mandatory), V (Vendor), P (Protected)
+  vendorId    INTEGER OPTIONAL,-- Vendor ID if V flag is set
+  avpData     ANY              -- Actual AVP payload (type depends on avpCode)
+}
+
+DiamIdent ::= UTF8String
+Unsigned32 ::= INTEGER (0..4294967295)
+
+
+
+SessionId ::= [APPLICATION 263] SEQUENCE {
+  avpFlags    BIT STRING,
+  vendorId    INTEGER OPTIONAL,
+  avpData     UTF8String
+}
+
+OriginHost ::= [APPLICATION 264] SEQUENCE {
+  avpFlags    BIT STRING,
+  vendorId    INTEGER OPTIONAL,
+  avpData     UTF8String
+}
+
+OriginRealm ::= [APPLICATION 296] SEQUENCE {
+  avpFlags    BIT STRING,
+  vendorId    INTEGER OPTIONAL,
+  avpData     DiamIdent
+}
+
+VendorId ::= [APPLICATION 266] SEQUENCE {
+  avpFlags    BIT STRING,
+  vendorId    INTEGER OPTIONAL,
+  avpData     Unsigned32
+}
+
+
+
+CreditControlRequest ::= SEQUENCE {
+  sessionId                          UTF8String,                  -- AVP Code: 263 (Session-Id)
+  originHost                         UTF8String,                  -- AVP Code: 264 (Origin-Host)
+  originRealm                        UTF8String,                  -- AVP Code: 296 (Origin-Realm)
+  destinationRealm                   UTF8String,                  -- AVP Code: 283 (Destination-Realm)
+  authApplicationId                  INTEGER (0..4294967295),     -- AVP Code: 258 (Auth-Application-Id)
+  serviceContextId                   UTF8String,                  -- AVP Code: 461 (Service-Context-Id)
+  ccRequestType                      CCRequestType,               -- AVP Code: 416 (CC-Request-Type)
+  ccRequestNumber                    INTEGER,                     -- AVP Code: 415 (CC-Request-Number)
+  destinationHost                    UTF8String OPTIONAL,         -- AVP Code: 293 (Destination-Host)
+  userName                           UTF8String OPTIONAL,         -- AVP Code: 1 (User-Name)
+  ccSubSessionId                     INTEGER OPTIONAL,            -- AVP Code: 454 (CC-Sub-Session-Id)
+  acctMultiSessionId                 UTF8String OPTIONAL,         -- AVP Code: 50 (Acct-Multi-Session-Id)
+  originStateId                      INTEGER OPTIONAL,            -- AVP Code: 278 (Origin-State-Id)
+  eventTimestamp                     GeneralizedTime OPTIONAL,    -- AVP Code: 55 (Event-Timestamp)
+  subscriptionIds                    SEQUENCE OF SubscriptionId OPTIONAL, -- AVP Code: 443 (Subscription-Id)
+  serviceIdentifier                  INTEGER OPTIONAL,            -- AVP Code: 439 (Service-Identifier)
+  terminationCause                   TerminationCause OPTIONAL,   -- AVP Code: 295 (Termination-Cause)
+  requestedServiceUnit               RequestedServiceUnit OPTIONAL, -- AVP Code: 437 (Requested-Service-Unit)
+  requestedAction                    RequestedAction OPTIONAL,    -- AVP Code: 436 (Requested-Action)
+  usedServiceUnits                   SEQUENCE OF UsedServiceUnit OPTIONAL, -- AVP Code: 446 (Used-Service-Unit)
+  multipleServicesIndicator          MultipleServicesIndicator OPTIONAL, -- AVP Code: 455 (Multiple-Services-Indicator)
+  multipleServicesCreditControls     SEQUENCE OF MultipleServicesCreditControl OPTIONAL, -- AVP Code: 456
+  serviceParameterInfos              SEQUENCE OF ServiceParameterInfo OPTIONAL, -- AVP Code: 440
+  ccCorrelationId                    UTF8String OPTIONAL,         -- AVP Code: 411 (CC-Correlation-Id)
+  userEquipmentInfo                  UserEquipmentInfo OPTIONAL,  -- AVP Code: 458 (User-Equipment-Info)
+  proxyInfos                         SEQUENCE OF ProxyInfo OPTIONAL, -- AVP Code: 284 (Proxy-Info)
+  routeRecords                       SEQUENCE OF RouteRecord OPTIONAL, -- AVP Code: 282 (Route-Record)
+  additionalAvps                     SEQUENCE OF AVP OPTIONAL     -- Any additional AVPs
+}

@@ -1,0 +1,1600 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<!DOCTYPE Dictionary SYSTEM "dictionary.dtd">
+<Dictionary>
+
+    <!--
+ 				The Vendor-Id AVP (AVP Code 266) is of type Unsigned32 and contains
+ 				the IANA "SMI Network Management Private Enterprise Codes" [RFC3232]
+ 				value assigned to the vendor of the Diameter device.  It is
+ 				envisioned that the combination of the Vendor-Id, Product-Name
+ 				(Section 5.3.7) and the Firmware-Revision (Section 5.3.4) AVPs may
+ 				provide useful debugging information.
+
+ 				A Vendor-Id value of zero in the CER or CEA messages is reserved and
+ 				indicates that this field is ignored.
+ 			-->
+    <Avp Code="266" Vendor="0" Name="Vendor-Id" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+
+    <!-- Firmware-Revision -->
+    <!--
+        The Firmware-Revision AVP (AVP Code 267) is of type Unsigned32 and is
+        used to inform a Diameter peer of the firmware revision of the
+        issuing device.
+
+        For devices that do not have a firmware revision (general purpose
+        computers running Diameter software modules, for instance), the
+        revision of the Diameter software module may be reported instead.
+    -->
+    <Avp Code="267" Vendor="0" Name="Firmware-Revision" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="None"/>
+  
+    <!-- Host-IP-Address -->
+    <!--
+        The Host-IP-Address AVP (AVP Code 257) is of type Address and is used
+        to inform a Diameter peer of the sender's IP address.  All source
+        addresses that a Diameter node expects to use with SCTP [RFC2960]
+        MUST be advertised in the CER and CEA messages by including a
+        Host-IP- Address AVP for each address.  This AVP MUST ONLY be used in
+        the CER and CEA messages.
+    -->
+    <Avp Code="257" Vendor="0" Name="Host-IP-Address" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+
+
+
+    <!-- Supported-Vendor-Id -->
+    
+    <!--
+        The Supported-Vendor-Id AVP (AVP Code 265) is of type Unsigned32 and
+        contains the IANA "SMI Network Management Private Enterprise Codes"
+        [RFC3232] value assigned to a vendor other than the device vendor but
+        including the application vendor.  This is used in the CER and CEA
+        messages in order to inform the peer that the sender supports (a
+        subset of) the vendor-specific AVPs defined by the vendor identified
+        in this AVP.  The value of this AVP SHOULD NOT be set to zero.
+        Multiple instances of this AVP containing the same value SHOULD NOT
+        be sent.
+    -->
+    <Avp Code="265" Vendor="0" Name="Supported-Vendor-Id" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+    <!-- Product-Name -->
+    
+    <!--
+        The Product-Name AVP (AVP Code 269) is of type UTF8String, and
+        contains the vendor assigned name for the product.  The Product-Name
+        AVP SHOULD remain constant across firmware revisions for the same
+        product.
+    -->
+    <Avp Code="269" Vendor="0" Name="Product-Name" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="None"/>
+   
+
+    <!-- Disconnect-Cause -->
+    <!--
+        The Disconnect-Cause AVP (AVP Code 273) is of type Enumerated.  A
+        Diameter node MUST include this AVP in the Disconnect-Peer-Request
+        message to inform the peer of the reason for its intention to
+        shutdown the transport connection.  The following values are
+        supported:
+
+        REBOOTING                         0
+        A scheduled reboot is imminent. Receiver of DPR with above result
+        code MAY attempt reconnection.
+
+        BUSY                              1
+        The peer's internal resources are constrained, and it has
+        determined that the transport connection needs to be closed.
+        Receiver of DPR with above result code SHOULD NOT attempt
+        reconnection.
+
+        DO_NOT_WANT_TO_TALK_TO_YOU        2
+        The peer has determined that it does not see a need for the
+        transport connection to exist, since it does not expect any
+        messages to be exchanged in the near future. Receiver of DPR
+        with above result code SHOULD NOT attempt reconnection.
+    -->
+    <Avp Code="273" Vendor="0" Name="Disconnect-Cause" Type="Signed32" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <Enum Name="REBOOTING" Value="0"/>
+        <Enum Name="BUSY" Value="1"/>
+        <Enum Name="DO_NOT_WANT_TO_TALK_TO_YOU" Value="2"/>
+    </Avp>            
+    
+    <!-- Origin-Host -->
+    
+    <!--
+        The Origin-Host AVP (AVP Code 264) is of type DiameterIdentity, and
+        MUST be present in all Diameter messages.  This AVP identifies the
+        endpoint that originated the Diameter message.  Relay agents MUST NOT
+        modify this AVP.
+
+        The value of the Origin-Host AVP is guaranteed to be unique within a
+        single host.
+
+        Note that the Origin-Host AVP may resolve to more than one address as
+        the Diameter peer may support more than one address.
+
+        This AVP SHOULD be placed as close to the Diameter header as
+        possible.
+    -->
+    <Avp Code="264" Vendor="0" Name="Origin-Host" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+   
+    <!-- Origin-Realm -->
+    
+    <!--
+        The Origin-Realm AVP (AVP Code 296) is of type DiameterIdentity.
+        This AVP contains the Realm of the originator of any Diameter message
+        and MUST be present in all messages.
+
+        This AVP SHOULD be placed as close to the Diameter header as
+        possible.
+    -->
+    <Avp Code="296" Vendor="0" Name="Origin-Realm" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+    <!-- Destination-Host -->
+    <!--
+        The Destination-Host AVP (AVP Code 293) is of type DiameterIdentity.
+        This AVP MUST be present in all unsolicited agent initiated messages,
+        MAY be present in request messages, and MUST NOT be present in Answer
+        messages.
+
+        The absence of the Destination-Host AVP will cause a message to be
+        sent to any Diameter server supporting the application within the
+        realm specified in Destination-Realm AVP.
+
+        This AVP SHOULD be placed as close to the Diameter header as
+        possible.
+    -->
+    <Avp Code="293" Vendor="0" Name="Destination-Host" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+    
+    <!-- Destination-Realm -->
+    <!--
+        The Destination-Realm AVP (AVP Code 283) is of type DiameterIdentity,
+        and contains the realm the message is to be routed to.  The
+        Destination-Realm AVP MUST NOT be present in Answer messages.
+        Diameter Clients insert the realm portion of the User-Name AVP.
+        Diameter servers initiating a request message use the value of the
+        Origin-Realm AVP from a previous message received from the intended
+        target host (unless it is known a priori).  When present, the
+        Destination-Realm AVP is used to perform message routing decisions.
+
+        Request messages whose ABNF does not list the Destination-Realm AVP
+        as a mandatory AVP are inherently non-routable messages.
+
+        This AVP SHOULD be placed as close to the Diameter header as
+        possible.
+    -->
+    <Avp Code="283" Vendor="0" Name="Destination-Realm" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+   
+    <!-- Route-Record -->
+    <!--
+        The Route-Record AVP (AVP Code 282) is of type DiameterIdentity.  The
+        identity added in this AVP MUST be the same as the one received in
+        the Origin-Host of the Capabilities Exchange message.
+    -->
+    <Avp Code="282" Vendor="0" Name="Route-Record" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+  
+    <!-- Proxy-Host -->
+    <!--
+        The Proxy-Host AVP (AVP Code 280) is of type DiameterIdentity.  This
+        AVP contains the identity of the host that added the Proxy-Info AVP.
+    -->
+    <Avp Code="280" Vendor="0" Name="Proxy-Host" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+
+    <!-- Proxy-State -->
+    <!--
+        The Proxy-State AVP (AVP Code 33) is of type OctetString, and
+        contains state local information, and MUST be treated as opaque data.
+    -->
+    <Avp Code="33" Vendor="0" Name="Proxy-State" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+
+
+    <!-- Proxy-Info -->
+    <!--
+        The Proxy-Info AVP (AVP Code 284) is of type Grouped.  The Grouped
+        Data field has the following ABNF grammar:
+
+         Proxy-Info ::= < AVP Header: 284 >
+                         Proxy-Host 
+                         Proxy-State 
+                      * [ AVP ]
+    -->
+    <Avp Code="284" Vendor="0" Name="Proxy-Info" Type="Grouped" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <GroupAvp Name="Proxy-Host" Necissity="Required"/>
+        <GroupAvp Name="Proxy-State" Necissity="Required" />
+    </Avp>            
+
+    <!-- Auth-Application-Id -->
+    <!--
+        The Auth-Application-Id AVP (AVP Code 258) is of type Unsigned32 and
+        is used in order to advertise support of the Authentication and
+        Authorization portion of an application (see Section 2.4).  If
+        present in a message other than CER and CEA, the value of the Auth-
+        Application-Id AVP MUST match the Application Id present in the
+        Diameter message header.
+    -->
+    <Avp Code="258" Vendor="0" Name="Auth-Application-Id" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+    
+    <!-- Acct-Application-Id -->
+    <!--
+        The Acct-Application-Id AVP (AVP Code 259) is of type Unsigned32 and
+        is used in order to advertise support of the Accounting portion of an
+        application (see Section 2.4).  If present in a message other than
+        CER and CEA, the value of the Acct-Application-Id AVP MUST match the
+        Application Id present in the Diameter message header.
+    -->
+    <Avp Code="259" Vendor="0" Name="Acct-Application-Id" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+
+    <!-- Inband-Security-Id -->
+    <!--
+        The Inband-Security-Id AVP (AVP Code 299) is of type Unsigned32 and
+        is used in order to advertise support of the Security portion of the
+        application.
+
+        Currently, the following values are supported, but there is ample
+        room to add new security Ids.
+
+
+        NO_INBAND_SECURITY 0
+
+        This peer does not support TLS.  This is the default value, if the
+        AVP is omitted.
+
+        TLS 1
+
+        This node supports TLS security, as defined by [RFC4346].
+    -->
+
+    <!-- Although the RFC does not specify an "Enumerated" type here, we go forward and create one.
+     * This is the reason for the "*" in the type name
+     -->
+    
+    <Avp Code="299" Vendor="0" Name="Inband-Security-Id" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <Enum Name="NO_INBAND_SECURITY" Value="0" />
+        <Enum Name="TLS" Value="1" />
+    </Avp>
+
+    <!-- Vendor-Specific-Application-Id -->
+    <!--
+        The Vendor-Specific-Application-Id AVP (AVP Code 260) is of type
+        Grouped and is used to advertise support of a vendor-specific
+        Diameter Application.  Exactly one instance of either Auth-
+        Application-Id or Acct-Application-Id AVP MUST be present.  The
+        Application Id carried by either Auth-Application-Id or Acct-
+        Application-Id AVP MUST comply with vendor specific Application Id
+        assignment described in Sec 11.3.  It MUST also match the Application
+        Id present in the diameter header except when used in a CER or CEA
+        messages.
+
+        The Vendor-Id AVP is an informational AVP pertaining to the vendor
+        who may have authorship of the vendor-specific Diameter application.
+        It MUST NOT be used as a means of defining a completely separate
+        vendor-specific Application Id space.
+
+        This AVP MUST also be present as the first AVP in all experimental
+        commands defined in the vendor-specific application.
+
+        This AVP SHOULD be placed as close to the Diameter header as
+        possible.
+
+        AVP Format
+
+        <Vendor-Specific-Application-Id> ::= < AVP Header: 260 >
+                                            Vendor-Id 
+                                           [ Auth-Application-Id ]
+                                           [ Acct-Application-Id ]
+
+        A Vendor-Specific-Application-Id AVP MUST contain exactly one of
+        either Auth-Application-Id or Acct-Application-Id.  If a Vendor-
+        Specific-Application-Id is received without any of these two AVPs,
+        then the recipient SHOULD issue an answer with a Result-Code set to
+        DIAMETER_MISSING_AVP.  The answer SHOULD also include a Failed-AVP
+        which MUST contain an example of an Auth-Application-Id AVP and an
+        Acct-Application-Id AVP.
+
+        If a Vendor-Specific-Application-Id is received that contains both
+        Auth-Application-Id and Acct-Application-Id, then the recipient
+        SHOULD issue an answer with Result-Code set to
+        DIAMETER_AVP_OCCURS_TOO_MANY_TIMES.  The answer SHOULD also include a
+        Failed-AVP which MUST contain the received Auth-Application-Id AVP
+        and Acct-Application-Id AVP.
+    -->
+    <Avp Code="260" Vendor="0" Name="Vendor-Specific-Application-Id" Type="Grouped" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <GroupAvp Name="Vendor-Id" Necissity="Required"/> <!-- Todo Vendor Check RFC6733 and RFC3588 Invalid VSAI -->
+        <GroupAvp Name="Auth-Application-Id" Necissity="Required" />
+        <GroupAvp Name="Acct-Application-Id" Necissity="Required" />
+    </Avp>            
+
+    <!-- Redirect-Host -->
+    <!--
+        One or more of instances of this AVP MUST be present if the answer
+        message's 'E' bit is set and the Result-Code AVP is set to
+        DIAMETER_REDIRECT_INDICATION.
+
+        Upon receiving the above, the receiving Diameter node SHOULD forward
+        the request directly to one of the hosts identified in these AVPs.
+        The server contained in the selected Redirect-Host AVP SHOULD be used
+        for all messages pertaining to this session.
+    -->
+    <Avp Code="292" Vendor="0" Name="Redirect-Host" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+    
+    <!-- Redirect-Host-Usage -->
+    <!--
+        The Redirect-Host-Usage AVP (AVP Code 261) is of type Enumerated.
+        This AVP MAY be present in answer messages whose 'E' bit is set and
+        the Result-Code AVP is set to DIAMETER_REDIRECT_INDICATION.
+
+        When present, this AVP dictates how the routing entry resulting from
+        the Redirect-Host is to be used.  The following values are supported:
+
+
+        DONT_CACHE 0
+
+        The host specified in the Redirect-Host AVP should not be cached.
+        This is the default value.
+
+
+        ALL_SESSION 1
+
+        All messages within the same session, as defined by the same value
+        of the Session-ID AVP MAY be sent to the host specified in the
+        Redirect-Host AVP.
+
+
+        ALL_REALM 2
+
+        All messages destined for the realm requested MAY be sent to the
+        host specified in the Redirect-Host AVP.
+
+
+        REALM_AND_APPLICATION 3
+
+        All messages for the application requested to the realm specified
+        MAY be sent to the host specified in the Redirect-Host AVP.
+
+        ALL_APPLICATION 4
+
+        All messages for the application requested MAY be sent to the host
+        specified in the Redirect-Host AVP.
+
+
+        ALL_HOST 5
+
+        All messages that would be sent to the host that generated the
+        Redirect-Host MAY be sent to the host specified in the Redirect-
+        Host AVP.
+
+
+        ALL_USER 6
+
+        All messages for the user requested MAY be sent to the host
+        specified in the Redirect-Host AVP.
+
+
+        When multiple cached routes are created by redirect indications and
+        they differ only in redirect usage and peers to forward requests to
+        (see Section 6.1.8), a precedence rule MUST be applied to the
+        redirect usage values of the cached routes during normal routing to
+        resolve contentions that may occur.  The precedence rule is the order
+        that dictate which redirect usage should be considered before any
+        other as they appear.  The order is as follows:
+
+
+        1.  ALL_SESSION
+
+        2.  ALL_USER
+
+        3.  REALM_AND_APPLICATION
+
+        4.  ALL_REALM
+
+        5.  ALL_APPLICATION
+
+        6.  ALL_HOST
+    -->
+    <Avp Code="261" Vendor="0" Name="Redirect-Host-Usage" Type="Signed32" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <Enum Name="DONT_CACHE" Value="0" />
+        <Enum Name="ALL_SESSION" Value="1" />
+        <Enum Name="ALL_REALM" Value="2" />
+        <Enum Name="REALM_AND_APPLICATION" Value="3" />
+        <Enum Name="ALL_APPLICATION" Value="4" />
+        <Enum Name="ALL_HOST" Value="5" />
+        <Enum Name="ALL_USER" Value="6" />
+        
+    </Avp>            
+
+    <!-- Redirect-Max-Cache-Time -->
+    <!--
+        The Redirect-Max-Cache-Time AVP (AVP Code 262) is of type Unsigned32.
+        This AVP MUST be present in answer messages whose 'E' bit is set, the
+        Result-Code AVP is set to DIAMETER_REDIRECT_INDICATION and the
+        Redirect-Host-Usage AVP set to a non-zero value.
+
+        This AVP contains the maximum number of seconds the peer and route
+        table entries, created as a result of the Redirect-Host, will be
+        cached.  Note that once a host created due to a redirect indication
+        is no longer reachable, any associated peer and routing table entries
+        MUST be deleted.
+    -->
+    <Avp Code="262" Vendor="0" Name="Redirect-Max-Cache-Time" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+
+    <!-- Result-Code -->
+    
+    <!--
+        The Result-Code AVP (AVP Code 268) is of type Unsigned32 and
+        indicates whether a particular request was completed successfully or
+        whether an error occurred.  All Diameter answer messages defined in
+        IETF applications MUST include one Result-Code AVP.  A non-successful
+        Result-Code AVP (one containing a non 2xxx value other than
+        DIAMETER_REDIRECT_INDICATION) MUST include the Error-Reporting-Host
+        AVP if the host setting the Result-Code AVP is different from the
+        identity encoded in the Origin-Host AVP.
+
+        The Result-Code data field contains an IANA-managed 32-bit address
+        space representing errors (see Section 11.4).  Diameter provides the
+        following classes of errors, all identified by the thousands digit in
+        the decimal notation:
+
+        o  1xxx (Informational)
+
+        o  2xxx (Success)
+
+        o  3xxx (Protocol Errors)
+
+        o  4xxx (Transient Failures)
+
+        o  5xxx (Permanent Failure)
+
+        A non-recognized class (one whose first digit is not defined in this
+        section) MUST be handled as a permanent failure.
+    -->
+    <Avp Code="268" Vendor="0" Name="Result-Code" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <!-- Informational -->
+        <!-- 1001 -->
+        <!--
+            This informational error is returned by a Diameter server to
+            inform the access device that the authentication mechanism being
+            used requires multiple round trips, and a subsequent request needs
+            to be issued in order for access to be granted.
+        -->
+        <Enum Name="DIAMETER_MULTI_ROUND_AUTH" Value="1001"/>
+        <!-- Success -->
+        <!-- 2001 -->
+        <!--
+            The Request was successfully completed.
+        -->
+        <Enum Name="DIAMETER_SUCCESS" Value="2001"/>
+        <!-- 2002 -->
+        <!--
+            When returned, the request was successfully completed, but
+            additional processing is required by the application in order to
+            provide service to the user.
+        -->
+        <Enum Name="DIAMETER_LIMITED_SUCCESS" Value="2002"/>
+          <!-- Protocol Errors -->
+        <!-- 3001 - might be changed to 5xxx soon -->
+        <!--
+            The Request contained a Command-Code that the receiver did not
+            recognize or support.  This MUST be used when a Diameter node
+            receives an experimental command that it does not understand.
+        -->
+        <Enum Name="DIAMETER_COMMAND_UNSUPPORTED" Value="3001"/>
+         <!-- 3002 -->
+        <!--
+            This error is given when Diameter can not deliver the message to
+            the destination, either because no host within the realm
+            supporting the required application was available to process the
+            request, or because Destination-Host AVP was given without the
+            associated Destination-Realm AVP.
+        -->
+        <Enum Name="DIAMETER_UNABLE_TO_DELIVER" Value="3002"/>
+        <!-- 3003 -->
+        <!--
+            The intended realm of the request is not recognized.
+        -->
+        <Enum Name="DIAMETER_REALM_NOT_SERVED" Value="3003" />
+        <!-- 3004 -->
+        <!--
+            When returned, a Diameter node SHOULD attempt to send the message
+            to an alternate peer.  This error MUST only be used when a
+            specific server is requested, and it cannot provide the requested
+            service.
+        -->
+        <Enum Name="DIAMETER_TOO_BUSY" Value="3004"/>
+        <!-- 3005 -->
+        <!--
+            An agent detected a loop while trying to get the message to the
+            intended recipient.  The message MAY be sent to an alternate peer,
+            if one is available, but the peer reporting the error has
+            identified a configuration problem.
+        -->
+        <Enum Name="DIAMETER_LOOP_DETECTED" Value="3005"/>
+        <!-- 3006 -->
+        <!--
+            A redirect agent has determined that the request could not be
+            satisfied locally and the initiator of the request should direct
+            the request directly to the server, whose contact information has
+            been added to the response.  When set, the Redirect-Host AVP MUST
+            be present.
+        -->
+        <Enum Name="DIAMETER_REDIRECT_INDICATION" Value="3006"/>  
+        <!-- 3007 -->
+        <!--
+            A request was sent for an application that is not supported.
+        -->
+        <Enum Name="DIAMETER_APPLICATION_UNSUPPORTED" Value="3007"/>
+        <!-- 3008 - will change to 5xxx soon -->
+        <!--
+            A request was received whose bits in the Diameter header were
+            either set to an invalid combination, or to a value that is
+            inconsistent with the command code's definition.
+        -->
+        <Enum Name="DIAMETER_INVALID_HDR_BITS" Value="3008"/>
+        <!-- 3009 - will change to 5xxx soon -->
+        <!--
+            A request was received that included an AVP whose flag bits are
+            set to an unrecognized value, or that is inconsistent with the
+            AVP's definition.
+        -->
+        <Enum Name="DIAMETER_INVALID_AVP_BITS" Value="3009"/>
+        <!-- 3010  - will change to 5xxx soon -->
+        <!--
+             A CER was received from an unknown peer.
+        -->
+        <Enum Name="DIAMETER_UNKNOWN_PEER" Value="3010"/>
+        <!-- Transient Failures -->
+        <!-- 4001 -->
+        <!--
+            The authentication process for the user failed, most likely due to
+            an invalid password used by the user.  Further attempts MUST only
+            be tried after prompting the user for a new password.
+        -->
+        <Enum Name="DIAMETER_AUTHENTICATION_REJECTED" Value="4001"/>
+        <!-- 4002 -->
+        <!--
+            A Diameter node received the accounting request but was unable to
+            commit it to stable storage due to a temporary lack of space.
+        -->
+        <Enum Name="DIAMETER_OUT_OF_SPACE" Value="4002"/>
+        <!-- 4003 -->
+        <!--
+            The peer has determined that it has lost the election process and
+            has therefore disconnected the transport connection.
+        -->
+        <Enum Name="ELECTION_LOST" Value="4003"/>
+        <!-- Permanent Failures -->
+        <!-- 5001 -->
+        <!--
+            The peer received a message that contained an AVP that is not
+            recognized or supported and was marked with the Mandatory bit.  A
+            Diameter message with this error MUST contain one or more Failed-
+            AVP AVP containing the AVPs that caused the failure.
+        -->
+        <Enum Name="DIAMETER_AVP_UNSUPPORTED" Value="5001"/>
+        <!-- 5002 -->
+        <!--
+            The request contained an unknown Session-Id.
+        -->
+        <Enum Name="DIAMETER_UNKNOWN_SESSION_ID" Value="5002"/>
+        <!-- 5003 -->
+        <!--
+            A request was received for which the user could not be authorized.
+            This error could occur if the service requested is not permitted
+            to the user.
+        -->
+        <Enum Name="DIAMETER_AUTHORIZATION_REJECTED" Value="5003"/>
+        <!-- 5004 -->
+        <!--
+            The request contained an AVP with an invalid value in its data
+            portion.  A Diameter message indicating this error MUST include
+            the offending AVPs within a Failed-AVP AVP.
+        -->
+        <Enum Name="DIAMETER_INVALID_AVP_VALUE" Value="5004"/>
+        <!-- 5005 -->
+        <!--
+            The request did not contain an AVP that is required by the Command
+            Code definition.  If this value is sent in the Result-Code AVP, a
+            Failed-AVP AVP SHOULD be included in the message.  The Failed-AVP
+            AVP MUST contain an example of the missing AVP complete with the
+            Vendor-Id if applicable.  The value field of the missing AVP
+            should be of correct minimum length and contain zeroes.
+        -->
+        <Enum Name="DIAMETER_MISSING_AVP" Value="5005"/>
+        <!-- 5006 -->
+        <!--
+            A request was received that cannot be authorized because the user
+            has already expended allowed resources.  An example of this error
+            condition is a user that is restricted to one dial-up PPP port,
+            attempts to establish a second PPP connection.
+        -->
+        <Enum Name="DIAMETER_RESOURCES_EXCEEDED" Value="5006"/>
+        <!-- 5007 -->
+        <!--
+            The Home Diameter server has detected AVPs in the request that
+            contradicted each other, and is not willing to provide service to
+            the user.  The Failed-AVP AVPs MUST be present which contains the
+            AVPs that contradicted each other.
+        -->
+        <Enum Name="DIAMETER_CONTRADICTING_AVPS" Value="5007"/>
+        <!-- 5008 -->
+        <!--
+            A message was received with an AVP that MUST NOT be present.  The
+            Failed-AVP AVP MUST be included and contain a copy of the
+            offending AVP.
+        -->
+        <Enum Name="DIAMETER_AVP_NOT_ALLOWED" Value="5008"/>
+        <!-- 5009 -->
+        <!--
+            A message was received that included an AVP that appeared more
+            often than permitted in the message definition.  The Failed-AVP
+            AVP MUST be included and contain a copy of the first instance of
+            the offending AVP that exceeded the maximum number of occurrences
+        -->
+        <Enum Name="DIAMETER_AVP_OCCURS_TOO_MANY_TIMES" Value="5009"/>
+        <!-- 5010 -->
+        <!--
+            This error is returned by a Diameter node that is not acting as a
+            relay when it receives a CER which advertises a set of
+            applications that it does not support.
+        -->
+        <Enum Name="DIAMETER_NO_COMMON_APPLICATION" Value="5010"/>
+        <!-- 5011 -->
+        <!--
+            This error is returned when a request was received, whose version
+            number is unsupported.
+        -->
+        <Enum Name="DIAMETER_UNSUPPORTED_VERSION" Value="5011"/>
+        <!-- 5012 -->
+        <!--
+            This error is returned when a request is rejected for unspecified
+            reasons.
+        -->
+        <Enum Name="DIAMETER_UNABLE_TO_COMPLY" Value="5012"/>
+        <!-- 5013 - will change to 3xxx -->
+        <!--
+            This error is returned when an unrecognized bit in the Diameter
+            header is set to one (1).
+        -->
+        <Enum Name="DIAMETER_INVALID_BIT_IN_HEADER" Value="5013"/>
+        <!-- 5014 -->
+        <!--
+            The request contained an AVP with an invalid length.  A Diameter
+            message indicating this error MUST include the offending AVPs
+            within a Failed-AVP AVP.  In cases where the erroneous avp length
+            value exceeds the message length or is less than the minimum AVP
+            header length, it is sufficient to include the offending AVP
+            header and a zero filled payload of the minimum required length
+            for the payloads data type.  If the AVP is a grouped AVP, the
+            grouped AVP header with an empty payload would be sufficient to
+            indicate the offending AVP.  In the case where the offending AVP
+            header cannot be fully decoded when avp length is less than the
+            minimum AVP header length, it is sufficient to include an
+            offending AVP header that is formulated by padding the incomplete
+            AVP header with zero up to the minimum AVP header length.
+        -->
+        <Enum Name="DIAMETER_INVALID_AVP_LENGTH" Value="5014"/>
+        <!-- 5015 - will change to 3xxx -->
+        <!--
+            This error is returned when a request is received with an invalid
+            message length.
+        -->
+        <Enum Name="DIAMETER_INVALID_MESSAGE_LENGTH" Value="5015"/>
+        <!-- 5016 -->
+        <!--
+            The request contained an AVP with which is not allowed to have the
+            given value in the AVP Flags field.  A Diameter message indicating
+            this error MUST include the offending AVPs within a Failed-AVP
+            AVP.
+        -->
+        <Enum Name="DIAMETER_INVALID_AVP_BIT_COMBO" Value="5016"/>
+        <!-- 5017 -->
+        <!--
+            This error is returned when a CER message is received, and there
+            are no common security mechanisms supported between the peers.  A
+            Capabilities-Exchange-Answer (CEA) MUST be returned with the
+            Result-Code AVP set to DIAMETER_NO_COMMON_SECURITY.
+        -->
+        <Enum Name="DIAMETER_NO_COMMON_SECURITY" Value="5017"/>
+        
+    </Avp>            
+
+    <!-- Error-Message -->
+    
+    <!--
+        The Error-Message AVP (AVP Code 281) is of type UTF8String.  It MAY
+        accompany a Result-Code AVP as a human readable error message.  The
+        Error-Message AVP is not intended to be useful in real-time, and
+        SHOULD NOT be expected to be parsed by network entities.
+    -->
+    <Avp Code="281" Vendor="0" Name="Error-Message" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="None" />
+
+    <!-- Error-Reporting-Host -->
+    
+    <!--
+        The Error-Reporting-Host AVP (AVP Code 294) is of type
+        DiameterIdentity.  This AVP contains the identity of the Diameter
+        host that sent the Result-Code AVP to a value other than 2001
+        (Success), only if the host setting the Result-Code is different from
+        the one encoded in the Origin-Host AVP.  This AVP is intended to be
+        used for troubleshooting purposes, and MUST be set when the Result-
+        Code AVP indicates a failure.
+    -->
+    <Avp Code="294" Vendor="0" Name="Error-Reporting-Host" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="None" />
+
+    <!-- Failed-AVP -->
+    
+    <!--
+        The Failed-AVP AVP (AVP Code 279) is of type Grouped and provides
+        debugging information in cases where a request is rejected or not
+        fully processed due to erroneous information in a specific AVP.  The
+        value of the Result-Code AVP will provide information on the reason
+        for the Failed-AVP AVP.  A Diameter message SHOULD contain only one
+        Failed-AVP that corresponds to the error indicated by the Result-Code
+        AVP.  For practical purposes, this Failed-AVP would typically refer
+        to the first AVP processing error that a Diameter node encounters.
+
+        The possible reasons for this AVP are the presence of an improperly
+        constructed AVP, an unsupported or unrecognized AVP, an invalid AVP
+        value, the omission of a required AVP, the presence of an explicitly
+        excluded AVP (see tables in Section 10), or the presence of two or
+        more occurrences of an AVP which is restricted to 0, 1, or 0-1
+        occurrences.
+
+        A Diameter message SHOULD contain one Failed-AVP AVP, containing the
+        entire AVP that could not be processed successfully.  If the failure
+        reason is omission of a required AVP, an AVP with the missing AVP
+        code, the missing vendor id, and a zero filled payload of the minimum
+        required length for the omitted AVP will be added.  If the failure
+        reason is an invalid AVP length where the reported length is less
+        than the minimum AVP header length or greater than the reported
+        message length, a copy of the offending AVP header and a zero filled
+        payload of the minimum required length SHOULD be added.
+
+        In the case where the offending AVP is embedded within a grouped AVP,
+        the Failed-AVP MAY contain the grouped AVP which in turn contains the
+        single offending AVP.  The same method MAY be employed if the grouped
+        AVP itself is embedded in yet another grouped AVP and so on.  In this
+        case, the Failed-AVP MAY contain the grouped AVP heirarchy up to the
+        single offending AVP.  This enables the recipient to detect the
+        location of the offending AVP when embedded in a group.
+
+        AVP Format
+
+         <Failed-AVP> ::= < AVP Header: 279 >
+                       1* AVP
+    -->
+    <Avp Code="279" Vendor="0" Name="Failed-AVP" Type="Grouped" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+    <!-- Experimental-Result -->
+    
+    <!--
+        The Experimental-Result AVP (AVP Code 297) is of type Grouped, and
+        indicates whether a particular vendor-specific request was completed
+        successfully or whether an error occurred.  Its Data field has the
+        following ABNF grammar:
+
+        AVP Format
+
+         Experimental-Result ::= < AVP Header: 297 >
+                                  Vendor-Id 
+                                  Experimental-Result-Code 
+
+        The Vendor-Id AVP (see Section 5.3.3) in this grouped AVP identifies
+        the vendor responsible for the assignment of the result code which
+        follows.  All Diameter answer messages defined in vendor-specific
+        applications MUST include either one Result-Code AVP or one
+        Experimental-Result AVP.
+    -->
+    
+    <Avp Code="297" Vendor="0" Name="Experimental-Result" Type="Grouped" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+    <!-- Experimental-Result-Code -->
+    
+    <!--
+        The Experimental-Result-Code AVP (AVP Code 298) is of type Unsigned32
+        and contains a vendor-assigned value representing the result of
+        processing the request.
+
+        It is recommended that vendor-specific result codes follow the same
+        conventions given for the Result-Code AVP regarding the different
+        types of result codes and the handling of errors (for non 2xxx
+        values).
+    -->
+    <!-- Although the RFC does not specify an "Enumerated" type here, we go forward and create one.
+     * This is the reason for the "*" in the type name. Vendors will have to define their values.
+     -->
+    <Avp Code="298" Vendor="0" Name="Experimental-Result-Code" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+
+    <!-- Auth-Request-Type -->
+    
+    <!--
+        The Auth-Request-Type AVP (AVP Code 274) is of type Enumerated and is
+        included in application-specific auth requests to inform the peers
+        whether a user is to be authenticated only, authorized only or both.
+        Note any value other than both MAY cause RADIUS interoperability
+        issues.  The following values are defined:
+
+
+        AUTHENTICATE_ONLY 1
+
+        The request being sent is for authentication only, and MUST
+        contain the relevant application specific authentication AVPs that
+        are needed by the Diameter server to authenticate the user.
+
+
+        AUTHORIZE_ONLY 2
+
+        The request being sent is for authorization only, and MUST contain
+        the application specific authorization AVPs that are necessary to
+        identify the service being requested/offered.
+
+
+        AUTHORIZE_AUTHENTICATE 3
+
+        The request contains a request for both authentication and
+        authorization.  The request MUST include both the relevant
+        application specific authentication information, and authorization
+        information necessary to identify the service being requested/
+        offered.
+    -->
+    <Avp Code="274" Vendor="0" Name="Auth-Request-Type" Type="Signed32" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <Enum Name="AUTHENTICATE_ONLY" Value="1" />
+        <Enum Name="AUTHORIZE_ONLY" Value="2" />
+        <Enum Name="AUTHORIZE_AUTHENTICATE" Value="3" />
+    </Avp>
+    
+    <!-- Session-Id -->
+    <!--
+        The Session-Id AVP (AVP Code 263) is of type UTF8String and is used
+        to identify a specific session (see Section 8).  All messages
+        pertaining to a specific session MUST include only one Session-Id AVP
+        and the same value MUST be used throughout the life of a session.
+        When present, the Session-Id SHOULD appear immediately following the
+        Diameter Header (see Section 3).
+
+        The Session-Id MUST be globally and eternally unique, as it is meant
+        to uniquely identify a user session without reference to any other
+        information, and may be needed to correlate historical authentication
+        information with accounting information.  The Session-Id includes a
+        mandatory portion and an implementation-defined portion; a
+        recommended format for the implementation-defined portion is outlined
+        below.
+        
+        (skipped, see RFC for detail)
+    -->
+    <Avp Code="263" Vendor="0" Name="Session-Id" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+    
+    <!-- Authorization-Lifetime -->
+    
+    <!--
+        The Authorization-Lifetime AVP (AVP Code 291) is of type Unsigned32
+        and contains the maximum number of seconds of service to be provided
+        to the user before the user is to be re-authenticated and/or re-
+        authorized.  Great care should be taken when the Authorization-
+        Lifetime value is determined, since a low, non-zero, value could
+        create significant Diameter traffic, which could congest both the
+        network and the agents.
+
+        A value of zero (0) means that immediate re-auth is necessary by the
+        access device.  This is typically used in cases where multiple
+        authentication methods are used, and a successful auth response with
+        this AVP set to zero is used to signal that the next authentication
+        method is to be immediately initiated.  The absence of this AVP, or a
+        value of all ones (meaning all bits in the 32 bit field are set to
+        one) means no re-auth is expected.
+
+        If both this AVP and the Session-Timeout AVP are present in a
+        message, the value of the latter MUST NOT be smaller than the
+        Authorization-Lifetime AVP.
+
+        An Authorization-Lifetime AVP MAY be present in re-authorization
+        messages, and contains the number of seconds the user is authorized
+        to receive service from the time the re-auth answer message is
+        received by the access device.
+
+        This AVP MAY be provided by the client as a hint of the maximum
+        lifetime that it is willing to accept.  However, the server MAY
+        return a value that is equal to, or smaller, than the one provided by
+        the client.
+    -->
+    struct dict_avp_data data = 
+    291,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Authorization-Lifetime",        <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_UNSIGNED32            <!-- base type of data -->
+    ;
+    CHECK_dict_new( DICT_AVP, data , NULL, NULL);
+    
+
+    <!-- Auth-Grace-Period -->
+    
+    <!--
+        The Auth-Grace-Period AVP (AVP Code 276) is of type Unsigned32 and
+        contains the number of seconds the Diameter server will wait
+        following the expiration of the Authorization-Lifetime AVP before
+        cleaning up resources for the session.
+    -->
+    struct dict_avp_data data = 
+    276,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Auth-Grace-Period",            <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_UNSIGNED32            <!-- base type of data -->
+    ;
+    CHECK_dict_new( DICT_AVP, data , NULL, NULL);
+    
+
+    <!-- Auth-Session-State -->
+    
+    <!--
+        The Auth-Session-State AVP (AVP Code 277) is of type Enumerated and
+        specifies whether state is maintained for a particular session.  The
+        client MAY include this AVP in requests as a hint to the server, but
+        the value in the server's answer message is binding.  The following
+        values are supported:
+
+
+        STATE_MAINTAINED 0
+
+        This value is used to specify that session state is being
+        maintained, and the access device MUST issue a session termination
+        message when service to the user is terminated.  This is the
+        default value.
+
+
+        NO_STATE_MAINTAINED 1
+
+        This value is used to specify that no session termination messages
+        will be sent by the access device upon expiration of the
+        Authorization-Lifetime.
+    -->
+    struct dict_object * type;
+    struct dict_type_data tdata =  AVP_TYPE_INTEGER32, "Enumerated(Auth-Session-State)" , NULL, NULL, NULL ;
+    struct dict_enumval_data t_0 =  "STATE_MAINTAINED",  .i32 = 0 ;
+    struct dict_enumval_data t_1 =  "NO_STATE_MAINTAINED",  .i32 = 1 ;
+    struct dict_avp_data data = 
+    277,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Auth-Session-State",            <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_INTEGER32            <!-- base type of data -->
+    ;
+    <!-- Create the Enumerated type, and then the AVP -->
+    CHECK_dict_new( DICT_TYPE, tdata , NULL, type);
+    CHECK_dict_new( DICT_ENUMVAL, t_0 , type, NULL);
+    CHECK_dict_new( DICT_ENUMVAL, t_1 , type, NULL);
+    CHECK_dict_new( DICT_AVP, data , type, NULL);
+    
+
+    <!-- Re-Auth-Request-Type -->
+    
+    <!--
+        The Re-Auth-Request-Type AVP (AVP Code 285) is of type Enumerated and
+        is included in application-specific auth answers to inform the client
+        of the action expected upon expiration of the Authorization-Lifetime.
+        If the answer message contains an Authorization-Lifetime AVP with a
+        positive value, the Re-Auth-Request-Type AVP MUST be present in an
+        answer message.  The following values are defined:
+
+
+        AUTHORIZE_ONLY 0
+
+        An authorization only re-auth is expected upon expiration of the
+        Authorization-Lifetime.  This is the default value if the AVP is
+        not present in answer messages that include the Authorization-
+        Lifetime.
+
+
+        AUTHORIZE_AUTHENTICATE 1
+
+        An authentication and authorization re-auth is expected upon
+        expiration of the Authorization-Lifetime.
+    -->
+    struct dict_object * type;
+    struct dict_type_data tdata =  AVP_TYPE_INTEGER32, "Enumerated(Re-Auth-Request-Type)" , NULL, NULL, NULL ;
+    struct dict_enumval_data t_0 =  "AUTHORIZE_ONLY",  .i32 = 0 ;
+    struct dict_enumval_data t_1 =  "AUTHORIZE_AUTHENTICATE",  .i32 = 1 ;
+    struct dict_avp_data data = 
+    285,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Re-Auth-Request-Type",            <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_INTEGER32            <!-- base type of data -->
+    ;
+    <!-- Create the Enumerated type, and then the AVP -->
+    CHECK_dict_new( DICT_TYPE, tdata , NULL, type);
+    CHECK_dict_new( DICT_ENUMVAL, t_0 , type, NULL);
+    CHECK_dict_new( DICT_ENUMVAL, t_1 , type, NULL);
+    CHECK_dict_new( DICT_AVP, data , type, NULL);
+    
+
+    <!-- Session-Timeout -->
+    
+    <!--
+        The Session-Timeout AVP (AVP Code 27) [RFC2865] is of type Unsigned32
+        and contains the maximum number of seconds of service to be provided
+        to the user before termination of the session.  When both the
+        Session-Timeout and the Authorization-Lifetime AVPs are present in an
+        answer message, the former MUST be equal to or greater than the value
+        of the latter.
+
+        A session that terminates on an access device due to the expiration
+        of the Session-Timeout MUST cause an STR to be issued, unless both
+        the access device and the home server had previously agreed that no
+        session termination messages would be sent (see Section 8.11).
+
+        A Session-Timeout AVP MAY be present in a re-authorization answer
+        message, and contains the remaining number of seconds from the
+        beginning of the re-auth.
+
+        A value of zero, or the absence of this AVP, means that this session
+        has an unlimited number of seconds before termination.
+
+        This AVP MAY be provided by the client as a hint of the maximum
+        timeout that it is willing to accept.  However, the server MAY return
+        a value that is equal to, or smaller, than the one provided by the
+        client.
+    -->
+    struct dict_avp_data data = 
+    27,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Session-Timeout",            <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_UNSIGNED32            <!-- base type of data -->
+    ;
+    CHECK_dict_new( DICT_AVP, data , NULL, NULL);
+    
+
+    <!-- User-Name -->
+    
+    <!--
+        The User-Name AVP (AVP Code 1) [RFC2865] is of type UTF8String, which
+        contains the User-Name, in a format consistent with the NAI
+        specification [RFC4282].
+    -->
+    <Avp Code="1" Vendor="0" Name="User-Name" Type="UTF8String" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+
+    <!-- Termination-Cause -->
+    
+    <!--
+        The Termination-Cause AVP (AVP Code 295) is of type Enumerated, and
+        is used to indicate the reason why a session was terminated on the
+        access device.  The following values are defined:
+
+
+        DIAMETER_LOGOUT 1
+
+        The user initiated a disconnect
+
+
+        DIAMETER_SERVICE_NOT_PROVIDED 2
+
+        This value is used when the user disconnected prior to the receipt
+        of the authorization answer message.
+
+
+        DIAMETER_BAD_ANSWER 3
+
+        This value indicates that the authorization answer received by the
+        access device was not processed successfully.
+
+
+        DIAMETER_ADMINISTRATIVE 4
+
+        The user was not granted access, or was disconnected, due to
+        administrative reasons, such as the receipt of a Abort-Session-
+        Request message.
+
+
+        DIAMETER_LINK_BROKEN 5
+
+        The communication to the user was abruptly disconnected.
+
+
+        DIAMETER_AUTH_EXPIRED 6
+
+        The user's access was terminated since its authorized session time
+        has expired.
+
+
+        DIAMETER_USER_MOVED 7
+
+        The user is receiving services from another access device.
+
+
+        DIAMETER_SESSION_TIMEOUT 8
+
+        The user's session has timed out, and service has been terminated.
+    -->
+
+    <Avp Code="295" Vendor="0" Name="Termination-Cause" Type="Signed32" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+       <Enum Name="DIAMETER_LOGOUT" Value="1"/>
+       <Enum Name="DIAMETER_SERVICE_NOT_PROVIDED" Value="2"/>
+       <Enum Name="DIAMETER_BAD_ANSWER" Value="3"/>
+       <Enum Name="DIAMETER_ADMINISTRATIVE" Value="4"/>
+       <Enum Name="DIAMETER_LINK_BROKEN" Value="5"/>
+       <Enum Name="DIAMETER_AUTH_EXPIRED" Value="6"/>
+       <Enum Name="DIAMETER_USER_MOVED" Value="7"/>
+       <Enum Name="DIAMETER_SESSION_TIMEOUT" Value="8"/>
+    </Avp>
+    
+
+    <!-- Origin-State-Id -->
+    
+    <!--
+        The Origin-State-Id AVP (AVP Code 278), of type Unsigned32, is a
+        monotonically increasing value that is advanced whenever a Diameter
+        entity restarts with loss of previous state, for example upon reboot.
+        Origin-State-Id MAY be included in any Diameter message, including
+        CER.
+
+        A Diameter entity issuing this AVP MUST create a higher value for
+        this AVP each time its state is reset.  A Diameter entity MAY set
+        Origin-State-Id to the time of startup, or it MAY use an incrementing
+        counter retained in non-volatile memory across restarts.
+
+        The Origin-State-Id, if present, MUST reflect the state of the entity
+        indicated by Origin-Host.  If a proxy modifies Origin-Host, it MUST
+        either remove Origin-State-Id or modify it appropriately as well.
+        Typically, Origin-State-Id is used by an access device that always
+        starts up with no active sessions; that is, any session active prior
+        to restart will have been lost.  By including Origin-State-Id in a
+        message, it allows other Diameter entities to infer that sessions
+        associated with a lower Origin-State-Id are no longer active.  If an
+        access device does not intend for such inferences to be made, it MUST
+        either not include Origin-State-Id in any message, or set its value
+        to 0.
+
+    -->
+    <Avp Code="278" Vendor="0" Name="Origin-State-Id" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+
+    <!-- Session-Binding -->
+    
+    <!--
+        The Session-Binding AVP (AVP Code 270) is of type Unsigned32, and MAY
+        be present in application-specific authorization answer messages.  If
+        present, this AVP MAY inform the Diameter client that all future
+        application-specific re-auth messages for this session MUST be sent
+        to the same authorization server.  This AVP MAY also specify that a
+        Session-Termination-Request message for this session MUST be sent to
+        the same authorizing server.
+
+        This field is a bit mask, and the following bits have been defined:
+
+
+        RE_AUTH 1
+
+        When set, future re-auth messages for this session MUST NOT
+        include the Destination-Host AVP.  When cleared, the default
+        value, the Destination-Host AVP MUST be present in all re-auth
+        messages for this session.
+
+
+        STR 2
+
+        When set, the STR message for this session MUST NOT include the
+        Destination-Host AVP.  When cleared, the default value, the
+        Destination-Host AVP MUST be present in the STR message for this
+        session.
+
+
+        ACCOUNTING 4
+
+        When set, all accounting messages for this session MUST NOT
+        include the Destination-Host AVP.  When cleared, the default
+        value, the Destination-Host AVP, if known, MUST be present in all
+        accounting messages for this session.
+    -->
+
+    <!-- Although the RFC does not specify an "Enumerated" type here, we go forward and create one.
+     * This is the reason for the "*" in the type name
+     * The actual values of the AVP will not always be defined here, but at least it can be used in some cases.
+     *  ... maybe the code will be changed later to support bitfields AVP ...
+     -->
+
+    struct dict_object * type;
+    struct dict_type_data tdata =  AVP_TYPE_UNSIGNED32, "Enumerated*(Session-Binding)" , NULL, NULL, NULL ;
+    struct dict_enumval_data t_1 =  "RE_AUTH",  .u32 = 1 ;
+    struct dict_enumval_data t_2 =  "STR",  .u32 = 2 ;
+    struct dict_enumval_data t_4 =  "ACCOUNTING",  .u32 = 4 ;
+    struct dict_avp_data data = 
+    270,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Session-Binding",            <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_UNSIGNED32            <!-- base type of data -->
+    ;
+    <!-- Create the Enumerated type, and then the AVP -->
+    CHECK_dict_new( DICT_TYPE, tdata , NULL, type);
+    CHECK_dict_new( DICT_ENUMVAL, t_1 , type, NULL);
+    CHECK_dict_new( DICT_ENUMVAL, t_2 , type, NULL);
+    CHECK_dict_new( DICT_ENUMVAL, t_4 , type, NULL);
+    CHECK_dict_new( DICT_AVP, data , type, NULL);
+    
+
+    <!-- Session-Server-Failover -->
+    
+    <!--
+        The Session-Server-Failover AVP (AVP Code 271) is of type Enumerated,
+        and MAY be present in application-specific authorization answer
+        messages that either do not include the Session-Binding AVP or
+        include the Session-Binding AVP with any of the bits set to a zero
+        value.  If present, this AVP MAY inform the Diameter client that if a
+        re-auth or STR message fails due to a delivery problem, the Diameter
+        client SHOULD issue a subsequent message without the Destination-Host
+        AVP.  When absent, the default value is REFUSE_SERVICE.
+
+        The following values are supported:
+
+
+        REFUSE_SERVICE 0
+
+        If either the re-auth or the STR message delivery fails, terminate
+        service with the user, and do not attempt any subsequent attempts.
+
+
+        TRY_AGAIN 1
+
+        If either the re-auth or the STR message delivery fails, resend
+        the failed message without the Destination-Host AVP present.
+
+
+        ALLOW_SERVICE 2
+
+        If re-auth message delivery fails, assume that re-authorization
+        succeeded.  If STR message delivery fails, terminate the session.
+
+
+        TRY_AGAIN_ALLOW_SERVICE 3
+
+        If either the re-auth or the STR message delivery fails, resend
+        the failed message without the Destination-Host AVP present.  If
+        the second delivery fails for re-auth, assume re-authorization
+        succeeded.  If the second delivery fails for STR, terminate the
+        session.
+    -->
+    struct dict_object * type;
+    struct dict_type_data tdata =  AVP_TYPE_INTEGER32, "Enumerated(Session-Server-Failover)" , NULL, NULL, NULL ;
+    struct dict_enumval_data t_0 =  "REFUSE_SERVICE",  .i32 = 0 ;
+    struct dict_enumval_data t_1 =  "TRY_AGAIN",  .i32 = 1 ;
+    struct dict_enumval_data t_2 =  "ALLOW_SERVICE",  .i32 = 2 ;
+    struct dict_enumval_data t_3 =  "TRY_AGAIN_ALLOW_SERVICE",  .i32 = 3 ;
+    struct dict_avp_data data = 
+    271,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Session-Server-Failover",        <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_INTEGER32            <!-- base type of data -->
+    ;
+    <!-- Create the Enumerated type, and then the AVP -->
+    CHECK_dict_new( DICT_TYPE, tdata , NULL, type);
+    CHECK_dict_new( DICT_ENUMVAL, t_0 , type, NULL);
+    CHECK_dict_new( DICT_ENUMVAL, t_1 , type, NULL);
+    CHECK_dict_new( DICT_ENUMVAL, t_2 , type, NULL);
+    CHECK_dict_new( DICT_ENUMVAL, t_3 , type, NULL);
+    CHECK_dict_new( DICT_AVP, data , type, NULL);
+    
+
+    <!-- Multi-Round-Time-Out -->
+    
+    <!--
+        The Multi-Round-Time-Out AVP (AVP Code 272) is of type Unsigned32,
+        and SHOULD be present in application-specific authorization answer
+        messages whose Result-Code AVP is set to DIAMETER_MULTI_ROUND_AUTH.
+        This AVP contains the maximum number of seconds that the access
+        device MUST provide the user in responding to an authentication
+        request.
+    -->
+    struct dict_avp_data data = 
+    272,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Multi-Round-Time-Out",            <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_UNSIGNED32            <!-- base type of data -->
+    ;
+    CHECK_dict_new( DICT_AVP, data , NULL, NULL);
+    
+
+    <!-- Class -->
+    
+    <!--
+        The Class AVP (AVP Code 25) is of type OctetString and is used to by
+        Diameter servers to return state information to the access device.
+        When one or more Class AVPs are present in application-specific
+        authorization answer messages, they MUST be present in subsequent re-
+        authorization, session termination and accounting messages.  Class
+        AVPs found in a re-authorization answer message override the ones
+        found in any previous authorization answer message.  Diameter server
+        implementations SHOULD NOT return Class AVPs that require more than
+        4096 bytes of storage on the Diameter client.  A Diameter client that
+        receives Class AVPs whose size exceeds local available storage MUST
+        terminate the session.
+    -->
+    struct dict_avp_data data = 
+    25,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Class",                <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_OCTETSTRING            <!-- base type of data -->
+    ;
+    CHECK_dict_new( DICT_AVP, data , NULL, NULL);
+    
+
+    <!-- Event-Timestamp -->
+    
+    <!--
+        The Event-Timestamp (AVP Code 55) is of type Time, and MAY be
+        included in an Accounting-Request and Accounting-Answer messages to
+        record the time that the reported event occurred, in seconds since
+        January 1, 1900 00:00 UTC.
+    -->
+    <Avp Code="55" Vendor="0" Name="Event-Timestamp" Type="Time" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+
+
+
+    <!-- Accounting-Record-Type -->
+    
+    <!--
+        The Accounting-Record-Type AVP (AVP Code 480) is of type Enumerated
+        and contains the type of accounting record being sent.  The following
+        values are currently defined for the Accounting-Record-Type AVP:
+
+
+        EVENT_RECORD 1
+
+        An Accounting Event Record is used to indicate that a one-time
+        event has occurred (meaning that the start and end of the event
+        are simultaneous).  This record contains all information relevant
+        to the service, and is the only record of the service.
+
+
+        START_RECORD 2
+
+        An Accounting Start, Interim, and Stop Records are used to
+        indicate that a service of a measurable length has been given.  An
+        Accounting Start Record is used to initiate an accounting session,
+        and contains accounting information that is relevant to the
+        initiation of the session.
+
+
+        INTERIM_RECORD 3
+
+        An Interim Accounting Record contains cumulative accounting
+        information for an existing accounting session.  Interim
+        Accounting Records SHOULD be sent every time a re-authentication
+        or re-authorization occurs.  Further, additional interim record
+        triggers MAY be defined by application-specific Diameter
+        applications.  The selection of whether to use INTERIM_RECORD
+        records is done by the Acct-Interim-Interval AVP.
+
+
+        STOP_RECORD 4
+
+        An Accounting Stop Record is sent to terminate an accounting
+        session and contains cumulative accounting information relevant to
+        the existing session.
+    -->
+    struct dict_object * type;
+    struct dict_type_data tdata =  AVP_TYPE_INTEGER32, "Enumerated(Accounting-Record-Type)" , NULL, NULL, NULL ;
+    struct dict_enumval_data t_1 =  "EVENT_RECORD",  .i32 = 1 ;
+    struct dict_enumval_data t_2 =  "START_RECORD",  .i32 = 2 ;
+    struct dict_enumval_data t_3 =  "INTERIM_RECORD",  .i32 = 3 ;
+    struct dict_enumval_data t_4 =  "STOP_RECORD",  .i32 = 4 ;
+    struct dict_avp_data data = 
+    480,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Accounting-Record-Type",        <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_INTEGER32            <!-- base type of data -->
+    ;
+    <!-- Create the Enumerated type, and then the AVP -->
+    CHECK_dict_new( DICT_TYPE, tdata , NULL, type);
+    CHECK_dict_new( DICT_ENUMVAL, t_1 , type, NULL);
+    CHECK_dict_new( DICT_ENUMVAL, t_2 , type, NULL);
+    CHECK_dict_new( DICT_ENUMVAL, t_3 , type, NULL);
+    CHECK_dict_new( DICT_ENUMVAL, t_4 , type, NULL);
+    CHECK_dict_new( DICT_AVP, data , type, NULL);
+    
+
+    <!-- Acct-Interim-Interval -->
+    
+    <!--
+        The Acct-Interim-Interval AVP (AVP Code 85) is of type Unsigned32 and
+        is sent from the Diameter home authorization server to the Diameter
+        client.  The client uses information in this AVP to decide how and
+        when to produce accounting records.  With different values in this
+        AVP, service sessions can result in one, two, or two+N accounting
+        records, based on the needs of the home-organization.  The following
+        accounting record production behavior is directed by the inclusion of
+        this AVP:
+
+
+        1.  The omission of the Acct-Interim-Interval AVP or its inclusion
+        with Value field set to 0 means that EVENT_RECORD, START_RECORD,
+        and STOP_RECORD are produced, as appropriate for the service.
+
+
+        2.  The inclusion of the AVP with Value field set to a non-zero value
+        means that INTERIM_RECORD records MUST be produced between the
+        START_RECORD and STOP_RECORD records.  The Value field of this
+        AVP is the nominal interval between these records in seconds.
+
+        The Diameter node that originates the accounting information,
+        known as the client, MUST produce the first INTERIM_RECORD record
+        roughly at the time when this nominal interval has elapsed from
+        the START_RECORD, the next one again as the interval has elapsed
+        once more, and so on until the session ends and a STOP_RECORD
+        record is produced.
+
+        The client MUST ensure that the interim record production times
+        are randomized so that large accounting message storms are not
+        created either among records or around a common service start
+        time.
+    -->
+    struct dict_avp_data data = 
+    85,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Acct-Interim-Interval",        <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_UNSIGNED32            <!-- base type of data -->
+    ;
+    CHECK_dict_new( DICT_AVP, data , NULL, NULL);
+    
+
+    <!-- Accounting-Record-Number -->
+    
+    <!--
+        The Accounting-Record-Number AVP (AVP Code 485) is of type Unsigned32
+        and identifies this record within one session.  As Session-Id AVPs
+        are globally unique, the combination of Session-Id and Accounting-
+        Record-Number AVPs is also globally unique, and can be used in
+        matching accounting records with confirmations.  An easy way to
+        produce unique numbers is to set the value to 0 for records of type
+        EVENT_RECORD and START_RECORD, and set the value to 1 for the first
+        INTERIM_RECORD, 2 for the second, and so on until the value for
+        STOP_RECORD is one more than for the last INTERIM_RECORD.
+    -->
+    struct dict_avp_data data = 
+    485,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Accounting-Record-Number",        <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_UNSIGNED32            <!-- base type of data -->
+    ;
+    CHECK_dict_new( DICT_AVP, data , NULL, NULL);
+    
+
+    <!-- Acct-Session-Id -->
+    
+    <!--
+        The Acct-Session-Id AVP (AVP Code 44) is of type OctetString is only
+        used when RADIUS/Diameter translation occurs.  This AVP contains the
+        contents of the RADIUS Acct-Session-Id attribute.
+    -->
+    struct dict_avp_data data = 
+    44,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Acct-Session-Id",            <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_OCTETSTRING            <!-- base type of data -->
+    ;
+    CHECK_dict_new( DICT_AVP, data , NULL, NULL);
+    
+
+    <!-- Acct-Multi-Session-Id -->
+    
+    <!--
+        The Acct-Multi-Session-Id AVP (AVP Code 50) is of type UTF8String,
+        following the format specified in Section 8.8.  The Acct-Multi-
+        Session-Id AVP is used to link together multiple related accounting
+        sessions, where each session would have a unique Session-Id, but the
+        same Acct-Multi-Session-Id AVP.  This AVP MAY be returned by the
+        Diameter server in an authorization answer, and MUST be used in all
+        accounting messages for the given session.
+    -->
+    struct dict_avp_data data = 
+    50,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Acct-Multi-Session-Id",        <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_OCTETSTRING            <!-- base type of data -->
+    ;
+    CHECK_dict_new( DICT_AVP, data , UTF8String_type, NULL);
+    
+
+    <!-- Accounting-Sub-Session-Id -->
+    
+    <!--
+        The Accounting-Sub-Session-Id AVP (AVP Code 287) is of type
+        Unsigned64 and contains the accounting sub-session identifier.  The
+        combination of the Session-Id and this AVP MUST be unique per sub-
+        session, and the value of this AVP MUST be monotonically increased by
+        one for all new sub-sessions.  The absence of this AVP implies no
+        sub-sessions are in use, with the exception of an Accounting-Request
+        whose Accounting-Record-Type is set to STOP_RECORD.  A STOP_RECORD
+        message with no Accounting-Sub-Session-Id AVP present will signal the
+        termination of all sub-sessions for a given Session-Id.
+    -->
+    struct dict_avp_data data = 
+    287,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Accounting-Sub-Session-Id",        <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_UNSIGNED64            <!-- base type of data -->
+    ;
+    CHECK_dict_new( DICT_AVP, data , NULL, NULL);
+    
+
+    <!-- Accounting-Realtime-Required -->
+    
+    <!--
+        The Accounting-Realtime-Required AVP (AVP Code 483) is of type
+        Enumerated and is sent from the Diameter home authorization server to
+        the Diameter client or in the Accounting-Answer from the accounting
+        server.  The client uses information in this AVP to decide what to do
+        if the sending of accounting records to the accounting server has
+        been temporarily prevented due to, for instance, a network problem.
+
+
+        DELIVER_AND_GRANT 1
+
+        The AVP with Value field set to DELIVER_AND_GRANT means that the
+        service MUST only be granted as long as there is a connection to
+        an accounting server.  Note that the set of alternative accounting
+        servers are treated as one server in this sense.  Having to move
+        the accounting record stream to a backup server is not a reason to
+        discontinue the service to the user.
+
+
+        GRANT_AND_STORE 2
+
+        The AVP with Value field set to GRANT_AND_STORE means that service
+        SHOULD be granted if there is a connection, or as long as records
+        can still be stored as described in Section 9.4.
+
+        This is the default behavior if the AVP isn't included in the
+        reply from the authorization server.
+
+
+        GRANT_AND_LOSE 3
+
+        The AVP with Value field set to GRANT_AND_LOSE means that service
+        SHOULD be granted even if the records can not be delivered or
+        stored.
+    -->
+    struct dict_object * type;
+    struct dict_type_data tdata =  AVP_TYPE_INTEGER32, "Enumerated(Accounting-Realtime-Required)" , NULL, NULL, NULL ;
+    struct dict_enumval_data t_1 =  "DELIVER_AND_GRANT",  .i32 = 1 ;
+    struct dict_enumval_data t_2 =  "GRANT_AND_STORE",  .i32 = 2 ;
+    struct dict_enumval_data t_3 =  "GRANT_AND_LOSE",  .i32 = 3 ;
+    struct dict_avp_data data = 
+    483,                    <!-- Code -->
+    0,                    <!-- Vendor -->
+    "Accounting-Realtime-Required",        <!-- Name -->
+    AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,    <!-- Fixed flags -->
+    AVP_FLAG_MANDATORY,            <!-- Fixed flag values -->
+    AVP_TYPE_INTEGER32            <!-- base type of data -->
+    ;
+    <!-- Create the Enumerated type, and then the AVP -->
+    CHECK_dict_new( DICT_TYPE, tdata , NULL, type);
+    CHECK_dict_new( DICT_ENUMVAL, t_1 , type, NULL);
+    CHECK_dict_new( DICT_ENUMVAL, t_2 , type, NULL);
+    CHECK_dict_new( DICT_ENUMVAL, t_3 , type, NULL);
+    CHECK_dict_new( DICT_AVP, data , type, NULL);
+    
+
+
+</Dictionary>

@@ -1,0 +1,811 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<!DOCTYPE Dictionary SYSTEM "dictionary.dtd">
+
+<Dictionary>
+<!-- CC-Correlation-Id -->
+{
+    <!-- 
+       OctetString. 
+    -->
+    <Avp Code="411" Vendor="0" Name="CC-Correlation-Id" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+    
+               
+<!-- CC-Input-Octets -->
+{
+    <!-- 
+       Unsigned64. 
+    -->
+    <Avp Code="412" Vendor="0" Name="CC-Input-Octets" Type="Unsigned64"  FlagsMask="VendorMandatory" FlagsValues="Mandatory" /> 
+    
+               
+<!-- CC-Output-Octets -->
+{
+    <!-- 
+       Unsigned64. 
+    -->
+    <Avp Code="414" Vendor="0" Name="CC-Output-Octets" Type="Unsigned64"  FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+               
+<!-- CC-Request-Number -->
+{
+    <!-- 
+       Unsigned32. 
+    -->
+    <Avp Code="415" Vendor="0" Name="CC-Request-Number" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+}
+
+<!-- CC-Request-Type -->
+    <Avp Code="416" Vendor="0" Name="CC-Request-Type" Type="Enumerated" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <Enum Name="INITIAL_REQUEST" Value="1" />
+        <Enum Name="UPDATE_REQUEST" Value="2" />
+        <Enum Name="TERMINATION_REQUEST" Value="3" />
+        <Enum Name="EVENT_REQUEST" Value="4" />
+    </Avp>
+
+
+<!-- CC-Service-Specific-Units -->
+{
+    <!-- 
+       Unsigned64. 
+    -->
+    <Avp Code="417" Vendor="0" Name="CC-Service-Specific-Units" Type="Unsigned64"  FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+    <!-- CC-Session-Failover -->
+{
+    <!-- 
+       Enumerated. 
+    -->
+    <Avp Code="418" Vendor="0" Name="CC-Session-Failover" Type="Enumerated" FlagsMask="VendorMandatory" FlagsValues="Mandatory" >
+        <Enum Name="FAILOVER_NOT_SUPPORTED" Value="0" />
+        <Enum Name="FAILOVER_SUPPORTED" Value="1" />
+    </Avp> 
+               
+<!-- CC-Sub-Session-Id -->
+{
+    <!-- 
+       Unsigned64. 
+    -->
+    struct dict_avp_data data = { 
+	419,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"CC-Sub-Session-Id",                    <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_UNSIGNED64                     <!-- base type of data -->
+    };
+    CHECK_dict_new( DICT_AVP, data , NULL, NULL);
+}
+
+    <Avp Code="420" Vendor="0" Name="CC-Time" Type="Unsigned32"  FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+                                    
+<!-- CC-Total-Octets -->
+{
+    <!-- 
+       Unsigned64. 
+    -->
+    <Avp Code="421" Vendor="0" Name="CC-Total-Octets" Type="Unsigned64"  FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+               
+<!-- CC-Unit-Type -->
+{
+    <!-- 
+       Enumerated. 
+    -->
+
+    struct dict_object              *type;
+    struct dict_type_data           tdata = { AVP_TYPE_INTEGER32, "Enumerated(CC-Unit-Type)" , NULL, NULL, NULL };
+    struct dict_enumval_data        t_1 = { "TIME", { .i32 = 0 }};
+    struct dict_enumval_data        t_2 = { "MONEY", { .i32 = 1 }};
+    struct dict_enumval_data        t_3 = { "TOTAL-OCTETS", { .i32 = 2 }};
+    struct dict_enumval_data        t_4 = { "INPUT-OCTETS", { .i32 = 3 }};
+    struct dict_enumval_data        t_5 = { "OUTPUT-OCTETS", { .i32 = 4 }};
+    struct dict_enumval_data        t_6 = { "SERVICE-SPECIFIC-UNITS", { .i32 = 5 }};
+                 
+
+    struct dict_avp_data    data = { 
+	454,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"CC-Unit-Type",                         <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_INTEGER32                      <!-- base type of data -->
+    };
+    <!-- Create the Enumerated type, and then the AVP -->
+    CHECK_dict_new( DICT_TYPE, tdata , NULL, type);
+    CHECK_dict_new( DICT_ENUMVAL, t_1 , type, NULL);   
+    CHECK_dict_new( DICT_ENUMVAL, t_2 , type, NULL); 
+    CHECK_dict_new( DICT_ENUMVAL, t_3 , type, NULL); 
+    CHECK_dict_new( DICT_ENUMVAL, t_4 , type, NULL); 
+    CHECK_dict_new( DICT_ENUMVAL, t_5 , type, NULL); 
+    CHECK_dict_new( DICT_ENUMVAL, t_6 , type, NULL); 
+    CHECK_dict_new( DICT_AVP, data , type, NULL);
+}
+
+<!-- Check-Balance-Result -->
+{
+    <!-- 
+       Enumerated. 
+    -->
+
+    struct dict_object              *type;
+    struct dict_type_data           tdata = { AVP_TYPE_INTEGER32, "Enumerated(Check-Balance-Result)" , NULL, NULL, NULL };
+    struct dict_enumval_data        t_1 = { "ENOUGH_CREDIT", { .i32 = 0 }};
+    struct dict_enumval_data        t_2 = { "NO_CREDIT", { .i32 = 1 }};
+                 
+
+    struct dict_avp_data    data = { 
+	422,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Check-Balance-Result",                 <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_INTEGER32                      <!-- base type of data -->
+    };
+    <!-- Create the Enumerated type, and then the AVP -->
+    CHECK_dict_new( DICT_TYPE, tdata , NULL, type);
+    CHECK_dict_new( DICT_ENUMVAL, t_1 , type, NULL);  
+    CHECK_dict_new( DICT_ENUMVAL, t_2 , type, NULL); 
+    CHECK_dict_new( DICT_AVP, data , type, NULL);
+}
+               
+<!-- Cost-Unit -->
+{
+    <!-- 
+       UTF8String. 
+    -->
+    struct dict_avp_data    data = { 
+	424,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Cost-Unit",                            <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_OCTETSTRING                    <!-- base type of data -->
+    };
+    CHECK_dict_new( DICT_AVP, data , UTF8String_type, NULL);
+} 
+               
+<!-- Credit-Control -->
+{
+    <!-- 
+       Enumerated. 
+    -->
+
+    struct dict_object              *type;
+    struct dict_type_data           tdata = { AVP_TYPE_INTEGER32, "Enumerated(Credit-Control)" , NULL, NULL, NULL };
+    struct dict_enumval_data        t_1 = { "CREDIT_AUTHORIZATION", { .i32 = 0 }};
+    struct dict_enumval_data        t_2 = { "RE_AUTHORIZATION", { .i32 = 1 }};
+                 
+    struct dict_avp_data    data = { 
+	426,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Credit-Control",                       <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_INTEGER32                      <!-- base type of data -->
+    };
+    <!-- Create the Enumerated type, and then the AVP -->
+    CHECK_dict_new( DICT_TYPE, tdata , NULL, type);
+    CHECK_dict_new( DICT_ENUMVAL, t_1, type, NULL); 
+    CHECK_dict_new( DICT_ENUMVAL, t_2, type, NULL);
+    CHECK_dict_new( DICT_AVP, data , type, NULL);
+}
+  
+<!-- Credit-Control-Failure-Handling -->
+{
+    <!-- 
+       Enumerated. 
+    -->
+
+    <Avp Code="427" Vendor="0" Name="Credit-Control-Failure-Handling" Type="Enumerated" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <Enum Name="TERMINATE" Value="0" />
+        <Enum Name="CONTINUE" Value="1" />
+        <Enum Name="RETRY_AND_TERMINATE" Value="2" />
+    </Avp>
+
+
+<!-- Currency-Code -->
+{
+    <!-- 
+       Unsigned32. 
+    -->
+    struct dict_avp_data data = { 
+	425,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Currency-Code",                        <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_UNSIGNED32                     <!-- base type of data -->
+    };
+    CHECK_dict_new( DICT_AVP, data , NULL, NULL);
+}
+
+<!-- Direct-Debiting-Failure-Handling -->
+{
+    <!-- 
+       Enumerated. 
+    -->
+
+    struct dict_object              *type;
+    struct dict_type_data           tdata = { AVP_TYPE_INTEGER32, "Enumerated(Direct-Debiting-Failure-Handling)" , NULL, NULL, NULL };
+    struct dict_enumval_data        t_1 = { "TERMINATE_OR_BUFFER", { .i32 = 0 }};
+    struct dict_enumval_data        t_2 = { "CONTINUE", { .i32 = 1 }};
+                 
+    struct dict_avp_data    data = { 
+	428,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Direct-Debiting-Failure-Handling",     <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_INTEGER32                      <!-- base type of data -->
+    };
+    <!-- Create the Enumerated type, and then the AVP -->
+    CHECK_dict_new( DICT_TYPE, tdata , NULL, type);
+    CHECK_dict_new( DICT_ENUMVAL, t_1 , type, NULL); 
+    CHECK_dict_new( DICT_ENUMVAL, t_2 , type, NULL);
+    CHECK_dict_new( DICT_AVP, data , type, NULL);
+}
+
+<!-- Exponent -->
+{
+    <!-- 
+       Integer32. 
+    -->
+    struct dict_avp_data data = { 
+	429,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Exponent",                             <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_INTEGER32                      <!-- base type of data -->
+    };
+    CHECK_dict_new( DICT_AVP, data , NULL, NULL);
+}
+               
+<!-- Final-Unit-Action -->
+    <Avp Code="449" Vendor="0" Name="Final-Unit-Action" Type="Enumerated" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <Enum Name="TERMINATE" Value="0" />
+        <Enum Name="REDIRECT" Value="1" />
+        <Enum Name="RESTRICT_ACCESS" Value="2" />
+    </Avp>
+{
+    <!-- 
+       Enumerated. 
+    -->
+
+    struct dict_object              *type;
+    struct dict_type_data           tdata = { AVP_TYPE_INTEGER32, "Enumerated(Final-Unit-Action)" , NULL, NULL, NULL };
+    struct dict_enumval_data        t_1 = { "TERMINATE", { .i32 = 0 }};
+    struct dict_enumval_data        t_2 = { "REDIRECT", { .i32 = 1 }};
+    struct dict_enumval_data        t_3 = { "RESTRICT_ACCESS", { .i32 = 2 }};
+                 
+    struct dict_avp_data    data = { 
+	449,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Final-Unit-Action",                    <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_INTEGER32                      <!-- base type of data -->
+    };
+    <!-- Create the Enumerated type, and then the AVP -->
+    CHECK_dict_new( DICT_TYPE, tdata , NULL, type);
+    CHECK_dict_new( DICT_ENUMVAL, t_1 , type, NULL);  
+    CHECK_dict_new( DICT_ENUMVAL, t_2 , type, NULL); 
+    CHECK_dict_new( DICT_ENUMVAL, t_3 , type, NULL); 
+    CHECK_dict_new( DICT_AVP, data , type, NULL);
+}
+
+<!-- G-S-U-Pool-Identifier -->
+{
+    <!-- 
+       Unsigned32. 
+    -->
+    struct dict_avp_data data = { 
+	453,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"G-S-U-Pool-Identifier",                <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_UNSIGNED32                     <!-- base type of data -->
+    };
+    CHECK_dict_new( DICT_AVP, data , NULL, NULL);
+}
+               
+<!-- Multiple-Services-Indicator -->
+{
+    <!-- 
+       Enumerated. 
+    -->
+    <Avp Code="455" Vendor="0" Name="Multiple-Services-Indicator" Type="Enumerated" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <Enum Name="MULTIPLE_SERVICES_NOT_SUPPORTED" Value="0" />
+        <Enum Name="MULTIPLE_SERVICES_SUPPORTED" Value="1" />
+    </Avp>
+
+<!-- Rating-Group -->
+{
+    <!-- 
+       Unsigned32. 
+    -->
+    <Avp Code="432" Vendor="0" Name="Rating-Group" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+
+                                     
+<!-- Redirect-Address-Type -->
+{
+    <!-- 
+       Enumerated. 
+    -->
+    <Avp Code="433" Vendor="0" Name="Redirect-Address-Type" Type="Enumerated" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <Enum Name="IPV4_ADDRESS" Value="0" />
+        <Enum Name="IPV6_ADDRESS" Value="1" />
+        <Enum Name="URL" Value="2" />
+        <Enum Name="SIP_URI" Value="3" />
+    </Avp>
+
+    struct dict_object              *type;
+    struct dict_type_data           tdata = { AVP_TYPE_INTEGER32, "Enumerated(Redirect-Address-Type)" , NULL, NULL, NULL };
+    struct dict_enumval_data        t_1 = { "IPV4_ADDRESS", { .i32 = 0 }};
+    struct dict_enumval_data        t_2 = { "IPV6_ADDRESS", { .i32 = 1 }};
+    struct dict_enumval_data        t_3 = { "URL", { .i32 = 2 }};
+    struct dict_enumval_data        t_4 = { "SIP_URI", { .i32 = 3 }};
+                 
+    struct dict_avp_data    data = { 
+	433,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Redirect-Address-Type",                <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_INTEGER32                      <!-- base type of data -->
+    };
+    <!-- Create the Enumerated type, and then the AVP -->
+    CHECK_dict_new( DICT_TYPE, tdata , NULL, type);
+    CHECK_dict_new( DICT_ENUMVAL, t_1 , type, NULL);  
+    CHECK_dict_new( DICT_ENUMVAL, t_2 , type, NULL); 
+    CHECK_dict_new( DICT_ENUMVAL, t_3 , type, NULL); 
+    CHECK_dict_new( DICT_ENUMVAL, t_4 , type, NULL); 
+    CHECK_dict_new( DICT_AVP, data , type, NULL);
+}           
+
+<!-- Redirect-Server-Address -->
+{
+    <!-- 
+       UTF8String. 
+    -->
+    <Avp Code="435" Vendor="0" Name="Redirect-Server-Address" Type="UTF8String"  FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+    struct dict_avp_data    data = { 
+	435,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Redirect-Server-Address",              <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_OCTETSTRING                    <!-- base type of data -->
+    };
+    CHECK_dict_new( DICT_AVP, data , UTF8String_type, NULL);
+}
+               
+<!-- Requested-Action -->
+{
+    <!-- 
+       Enumerated. 
+    -->
+
+    <Avp Code="436" Vendor="0" Name="Requested-Action" Type="Enumerated" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <Enum Name="DIRECT_DEBITING" Value="0" />
+        <Enum Name="REFUND_ACCOUNT" Value="1" />
+        <Enum Name="CHECK_BALANCE" Value="2" />
+        <Enum Name="PRICE_ENQUIRY" Value="3" />
+    </Avp>
+
+<!-- Restriction-Filter-Rule -->
+{
+    <Avp Code="438" Vendor="0" Name="Restriction-Filter-Rule" Type="UTF8String" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+
+
+    <!--
+       IPFiltrRule. 
+    -->
+    struct dict_avp_data    data = { 
+	438,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Restriction-Filter-Rule",              <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_OCTETSTRING                    <!-- base type of data -->
+    };
+    CHECK_dict_new( DICT_AVP, data , IPFilterRule_type, NULL);
+}
+<!-- Filter-Id -->
+
+    <!--
+           UTF8String.
+    -->
+    <Avp Code="11" Vendor="0" Name="Filter-Id" Type="UTF8String" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+<!--Service-Context-Id  -->
+{
+    <!-- 
+       UTF8String. 
+    -->
+    <Avp Code="461" Vendor="0" Name="Service-Context-Id" Type="UTF8String" FlagsMask="VendorMandatory" FlagsValues="Mandatory"/>
+}
+
+<!-- Service-Identifier -->
+{
+    <!-- 
+       Unsigned32. 
+    -->
+    <Avp Code="439" Vendor="0" Name="Service-Identifier" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+                              
+<!-- Service-Parameter-Type -->
+{
+    <!-- 
+       Unsigned32. 
+    -->
+    <Avp Code="441" Vendor="0" Name="Service-Parameter-Type" Type="Unsigned32" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+}
+               
+<!-- Service-Parameter-Value -->
+{
+    <!-- 
+       OctetString. 
+    -->
+    <Avp Code="442" Vendor="0" Name="Service-Parameter-Value" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+}
+
+<!-- Subscription-Id-Data -->
+{
+    <!-- 
+       UTF8String. 
+    -->
+    <Avp Code="444" Vendor="0" Name="Subscription-Id-Data" Type="UTF8String" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+<!-- Subscription-Id-Type -->
+{
+    <!-- 
+       Enumerated. 
+    -->
+
+    <Avp Code="450" Vendor="0" Name="Subscription-Id-Type" Type="Enumerated" FlagsMask="VendorMandatory" FlagsValues="Mandatory" >
+        <Enum Name="END_USER_E164" Value="0" />
+        <Enum Name="END_USER_IMSI" Value="1" />
+        <Enum Name="END_USER_SIP_URI" Value="2" />
+        <Enum Name="END_USER_NAI" Value="3" />
+    </Avp>
+
+<!-- Tariff-Change-Usage -->
+{
+    <!-- 
+       Enumerated. 
+    -->
+
+    struct dict_object              *type;
+    struct dict_type_data           tdata = { AVP_TYPE_INTEGER32, "Enumerated(Tariff-Change-Usage)" , NULL, NULL, NULL };
+    struct dict_enumval_data        t_1 = { "UNIT_BEFORE_TARIFF_CHANGE", { .i32 = 0 }};
+    struct dict_enumval_data        t_2 = { "UNIT_AFTER_TARIFF_CHANGE", { .i32 = 1 }};
+    struct dict_enumval_data        t_3 = { "UNIT_INDETERMINATE", { .i32 = 2 }};
+                 
+    struct dict_avp_data    data = { 
+	452,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Tariff-Change-Usage",                  <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_INTEGER32                      <!-- base type of data -->
+    };
+    <!-- Create the Enumerated type, and then the AVP -->
+    CHECK_dict_new( DICT_TYPE, tdata , NULL, type);
+    CHECK_dict_new( DICT_ENUMVAL, t_1 , type, NULL); 
+    CHECK_dict_new( DICT_ENUMVAL, t_2 , type, NULL);
+    CHECK_dict_new( DICT_ENUMVAL, t_3 , type, NULL);
+    CHECK_dict_new( DICT_AVP, data , type, NULL);
+}
+               
+<!-- Tariff-Time-Change -->
+{
+    <!--
+      Time. 
+    -->
+    struct dict_avp_data data = { 
+	451,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Tariff-Time-Change",                   <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_OCTETSTRING                    <!-- base type of data -->
+    };
+    CHECK_dict_new( DICT_AVP, data , Time_type, NULL);
+}
+
+<!-- User-Equipment-Info-Type -->
+{
+    <!-- 
+       Enumerated. 
+    -->
+
+
+    <Avp Code="459" Vendor="0" Name="User-Equipment-Info-Type" Type="Enumerated" FlagsMask="VendorMandatory" FlagsValues="Mandatory" >
+        <Enum Name="IMEISV" Value="0" />
+        <Enum Name="MAC" Value="1" />
+        <Enum Name="EUI64" Value="2" />
+    </Avp>
+
+<!-- User-Equipment-Info-Value -->
+{
+    <!-- 
+       OctetString. 
+    -->
+    <Avp Code="460" Vendor="0" Name="User-Equipment-Info-Value" Type="OctetString" FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+<!-- Value-Digits -->
+{
+    <!-- 
+       Integer64. 
+    -->
+    struct dict_avp_data data = { 
+	447,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Value-Digits",                         <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_INTEGER64                      <!-- base type of data -->
+    };
+    CHECK_dict_new( DICT_AVP, data , NULL, NULL);
+}                         
+                
+<!-- Validity-Time -->
+{
+    <!-- 
+       Unsigned32. 
+    -->
+    <Avp Code="448" Vendor="0" Name="Validity-Time" Type="Unsigned32"  FlagsMask="VendorMandatory" FlagsValues="Mandatory" />
+
+<!-- Grouped AVPs below since they have dependencies on types above -->
+
+<!-- Redirect-Server -->
+    <!--
+      Grouped
+    -->
+    <Avp Code="434" Vendor="0" Name="Redirect-Server" Type="Grouped" FlagsMask="VendorMandatory" FlagsValues="Mandatory" >
+        <GroupAvp Name="Redirect-Address-Type" Necissity="Required" />
+        <GroupAvp Name="Redirect-Server-Address" Necissity="Required" />
+    </Avp>
+
+    {
+    struct dict_object * avp;
+    struct dict_avp_data data = {
+	434,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Redirect-Server",                      <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_GROUPED                        <!-- base type of data -->
+    };
+    struct local_rules_definition rules[] = {
+	{  "Redirect-Address-Type",	RULE_REQUIRED,	-1, 1 },
+	{  "Redirect-Server-Address",	RULE_REQUIRED,	-1, 1 }
+    };
+    CHECK_dict_new( DICT_AVP, data , NULL, avp);
+    PARSE_loc_rules( rules, avp );
+}
+
+<!-- Service-Parameter-Info -->
+{
+    <!--
+      Grouped
+    -->
+    <Avp Code="440" Vendor="0" Name="Service-Parameter-Info" Type="Grouped" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <GroupAvp Name="Service-Parameter-Type" Necissity="Required" />
+        <GroupAvp Name="Service-Parameter-Value" Necissity="Required" />
+    </Avp>
+
+
+<!-- Subscription-Id -->
+{
+    <!--
+      Grouped
+    -->
+    <Avp Code="443" Vendor="0" Name="Subscription-Id" Type="Grouped" FlagsMask="VendorMandatory" FlagsValues="Mandatory" >
+        <GroupAvp Name="Subscription-Id-Type" Necissity="Required" />
+        <GroupAvp Name="Subscription-Id-Data" Necissity="Required" />
+    </Avp>
+}
+                                    
+<!-- Unit-Value -->
+{
+    <!--
+      Grouped
+    -->
+
+    struct dict_object * avp;
+    struct dict_avp_data data = {
+	445,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Unit-Value",                           <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_GROUPED                        <!-- base type of data -->
+    };
+    struct local_rules_definition rules[] = {
+	{  "Value-Digits",	RULE_REQUIRED,	-1, 1 },
+	{  "Exponent",		RULE_OPTIONAL,	-1, 1 }
+    };
+    CHECK_dict_new( DICT_AVP, data , NULL, avp);
+    PARSE_loc_rules( rules, avp );
+}
+
+<!-- User-Equipment-Info -->
+{
+    <!--
+      Grouped
+    -->
+    <Avp Code="458" Vendor="0" Name="User-Equipment-Info" Type="Grouped" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <GroupAvp Name="User-Equipment-Info-Type" Necissity="Required" />
+        <GroupAvp Name="User-Equipment-Info-Value" Necissity="Required" />
+    </Avp>
+}
+
+<!-- grouped AVPs using grouped AVPs --> 
+
+<!-- CC-Money -->
+{
+    <!--
+      Grouped
+    -->
+    struct dict_object * avp;
+    struct dict_avp_data data = {
+	413,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"CC-Money",                             <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_GROUPED                        <!-- base type of data -->
+    };
+    struct local_rules_definition rules[] = {
+	{  "Unit-Value",	RULE_REQUIRED,	-1, 1 },
+	{  "Currency-Code",	RULE_OPTIONAL,	-1, 1 }
+    };
+    CHECK_dict_new( DICT_AVP, data , NULL, avp);
+    PARSE_loc_rules( rules, avp );
+}
+
+<!-- Cost-Information -->
+{
+    <!--
+      Grouped
+    -->
+    struct dict_object * avp;
+    struct dict_avp_data data = {
+	423,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Cost-Information",                     <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_GROUPED                        <!-- base type of data -->
+    };
+    struct local_rules_definition rules[] = {
+	{  "Unit-Value",	RULE_REQUIRED,	-1, 1 },
+	{  "Currency-Code",	RULE_REQUIRED,	-1, 1 },
+	{  "Cost-Unit",		RULE_OPTIONAL,	-1, 1 }
+    };
+    CHECK_dict_new( DICT_AVP, data , NULL, avp);
+    PARSE_loc_rules( rules, avp );
+}
+
+<!-- Final-Unit-Indication -->
+{
+    <!--
+      Grouped
+    -->
+
+    <Avp Code="430" Vendor="0" Name="Final-Unit-Indication" Type="Grouped" FlagsMask="VendorMandatory" FlagsValues="Mandatory" >
+        <GroupAvp Name="Final-Unit-Action" Necissity="Optional" /> <!-- Mandatory-->
+        <GroupAvp Name="Restriction-Filter-Rule" Necissity="Optional" />
+        <GroupAvp Name="Filter-Id" Necissity="Optional" />
+        <GroupAvp Name="Redirect-Server" Necissity="Optional" />
+    </Avp>
+
+    struct dict_object * avp;
+    struct dict_avp_data data = {
+	430,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"Final-Unit-Indication",                <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_GROUPED                        <!-- base type of data -->
+    };
+    struct local_rules_definition rules[] = {
+	{  "Final-Unit-Action",		RULE_REQUIRED,	-1, 1 },
+	{  "Restriction-Filter-Rule",	RULE_OPTIONAL,	-1, -1 },
+	{  "Filter-Id",			RULE_OPTIONAL,	-1, -1 },
+	{  "Redirect-Server",		RULE_OPTIONAL,	-1, 1 },
+    };
+    CHECK_dict_new( DICT_AVP, data , NULL, avp);
+    PARSE_loc_rules( rules, avp );
+}
+               
+<!-- Granted-Service-Unit -->
+{
+    <!--
+      Grouped
+    -->
+    <Avp Code="431" Vendor="0" Name="Granted-Service-Unit" Type="Grouped" FlagsMask="VendorMandatory" FlagsValues="Mandatory" >
+        <GroupAvp Name="Tariff-Time-Change" Necissity="Optional" />
+        <GroupAvp Name="CC-Time" Necissity="Optional" />
+        <GroupAvp Name="CC-Money" Necissity="Optional" />
+        <GroupAvp Name="CC-Total-Octets" Necissity="Optional" />
+        <GroupAvp Name="CC-Input-Octets" Necissity="Optional" />
+        <GroupAvp Name="CC-Output-Octets" Necissity="Optional" />
+        <GroupAvp Name="CC-Service-Specific-Units" Necissity="Optional" />
+    </Avp>
+
+<!-- G-S-U-Pool-Reference -->
+{
+    <!--
+      Grouped
+    -->
+    struct dict_object * avp;
+    struct dict_avp_data data = {
+	457,                                    <!-- Code -->
+	0,                                      <!-- Vendor -->
+	"G-S-U-Pool-Reference",                 <!-- Name -->
+	AVP_FLAG_VENDOR | AVP_FLAG_MANDATORY,   <!-- Fixed flags -->
+	AVP_FLAG_MANDATORY,                     <!-- Fixed flag values -->
+	AVP_TYPE_GROUPED                        <!-- base type of data -->
+    };
+    struct local_rules_definition rules[] = {
+	{  "G-S-U-Pool-Identifier",	RULE_REQUIRED,	-1, 1 },
+	{  "CC-Unit-Type",		RULE_REQUIRED,	-1, 1 },
+	{  "Unit-Value",		RULE_REQUIRED,	-1, 1 }
+    };
+    CHECK_dict_new( DICT_AVP, data , NULL, avp);
+    PARSE_loc_rules( rules, avp );
+}                     
+
+<!-- Requested-Service-Unit -->
+{
+    <!--
+      Grouped
+    -->
+    <Avp Code="437" Vendor="0" Name="Requested-Service-Unit" Type="Grouped" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <GroupAvp Name="CC-Time"  Necissity="Optional"/>
+        <GroupAvp Name="CC-Money"  Necissity="Optional"/>
+        <GroupAvp Name="CC-Total-Octets" Necissity="Optional"/>
+        <GroupAvp Name="CC-Input-Octets" Necissity="Optional"/>
+        <GroupAvp Name="CC-Output-Octets" Necissity="Optional"/>
+        <GroupAvp Name="CC-Service-Specific-Units" Necissity="Optional"/>
+    </Avp>
+}
+
+<!-- Used-Service-Unit -->
+{
+    <!--
+      Grouped
+    -->
+    <Avp Code="446" Vendor="0" Name="Used-Service-Unit" Type="Grouped" FlagsMask="VendorMandatory" FlagsValues="Mandatory">
+        <GroupAvp Name="Tariff-Change-Usage" Necissity="Optional"/>
+        <GroupAvp Name="CC-Time" Necissity="Optional"/>
+        <GroupAvp Name="CC-Money" Necissity="Optional"/>
+        <GroupAvp Name="CC-Total-Octets" Necissity="Optional"/>
+        <GroupAvp Name="CC-Input-Octets" Necissity="Optional"/>
+        <GroupAvp Name="CC-Output-Octets" Necissity="Optional"/>
+        <GroupAvp Name="CC-Service-Specific-Units" Necissity="Optional"/>
+    </Avp>
+
+<!-- at least three levels of grouping -->
+<!-- Multiple-Services-Credit-Control -->
+{
+    <!--
+      Grouped
+    -->
+    <Avp Code="456" Vendor="0" Name="Multiple-Services-Credit-Control" Type="Grouped" FlagsMask="VendorMandatory" FlagsValues="Mandatory" >
+        <GroupAvp Name="Granted-Service-Unit" Necissity="Optional"/>
+        <GroupAvp Name="Requested-Service-Unit" Necissity="Optional"/>
+        <GroupAvp Name="Used-Service-Unit" Necissity="Optional"/>
+        <GroupAvp Name="Tariff-Change-Usage" Necissity="Optional"/>
+        <GroupAvp Name="Service-Identifier" Necissity="Optional"/>
+        <GroupAvp Name="Rating-Group" Necissity="Optional"/>
+        <GroupAvp Name="G-S-U-Pool-Reference" Necissity="Optional"/>
+        <GroupAvp Name="Validity-Time" Necissity="Optional"/>
+        <GroupAvp Name="Result-Code" Necissity="Optional"/>
+        <GroupAvp Name="Final-Unit-Indication" Necissity="Optional"/>
+    </Avp>
+</Dictionary>
