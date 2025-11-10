@@ -97,13 +97,14 @@ GPRSRecord	::= CHOICE
 --
 {
 	sgsnPDPRecord			[20] SGSNPDPRecord,
+	ggsnPDPRecord			[21] GGSNPDPRecord,
 	sgsnMMRecord			[22] SGSNMMRecord,
 	sgsnSMORecord			[23] SGSNSMORecord,
 	sgsnSMTRecord			[24] SGSNSMTRecord,
 	sgsnMTLCSRecord			[25] SGSNMTLCSRecord,
 	sgsnMOLCSRecord			[26] SGSNMOLCSRecord,
 	sgsnNILCSRecord			[27] SGSNNILCSRecord,
-
+    egsnPDPRecord			[28] EGSNPDPRecord,
 	sgsnMBMSRecord			[76] SGSNMBMSRecord,
 	ggsnMBMSRecord			[77] GGSNMBMSRecord,
 	sGWRecord				[78] SGWRecord,
@@ -116,6 +117,80 @@ GPRSRecord	::= CHOICE
 	iPERecord				[95] IPERecord,
 	ePDGRecord				[96] EPDGRecord,
 	tWAGRecord				[97] TWAGRecord
+}
+
+GGSNPDPRecord 	::= SET
+{
+	recordType					 [0] RecordType,
+	networkInitiation			 [1] NetworkInitiatedPDPContext OPTIONAL,
+	servedIMSI					 [3] IMSI,
+	ggsnAddress					 [4] GSNAddress,
+	chargingID					 [5] ChargingID,
+	sgsnAddress					 [6] SEQUENCE OF GSNAddress,
+	accessPointNameNI			 [7] AccessPointNameNI OPTIONAL,
+	pdpType						 [8] PDPType OPTIONAL,
+	servedPDPAddress			 [9] PDPAddress OPTIONAL,
+	dynamicAddressFlag			 [11] DynamicAddressFlag OPTIONAL,
+	listOfTrafficVolumes		 [12] SEQUENCE OF ChangeOfCharCondition OPTIONAL,
+	recordOpeningTime			 [13] TimeStamp,
+	duration					 [14] CallDuration,
+	causeForRecClosing			 [15] CauseForRecClosing,
+	diagnostics					 [16] Diagnostics OPTIONAL,
+	recordSequenceNumber		 [17] INTEGER OPTIONAL,
+	nodeID						 [18] NodeID OPTIONAL,
+	recordExtensions			 [19] ManagementExtensions OPTIONAL,
+	localSequenceNumber			 [20] LocalSequenceNumber OPTIONAL,
+	apnSelectionMode			 [21] APNSelectionMode OPTIONAL,
+	servedMSISDN				 [22] MSISDN OPTIONAL,
+	chargingCharacteristics		 [23] ChargingCharacteristics,
+	chChSelectionMode			 [24] ChChSelectionMode OPTIONAL,
+	iMSsignalingContext			 [25] NULL OPTIONAL,
+	externalChargingID			 [26] OCTET STRING OPTIONAL,
+	sgsnPLMNIdentifier			 [27] PLMN-Id OPTIONAL,
+	pSFurnishChargingInformation [28] PSFurnishChargingInformation OPTIONAL,
+	servedIMEISV				 [29] IMEI OPTIONAL,
+	rATType						 [30] RATType OPTIONAL,
+	mSTimeZone 					 [31] MSTimeZone OPTIONAL,
+	userLocationInformation		 [32] OCTET STRING OPTIONAL,
+	cAMELChargingInformation	 [33] OCTET STRING OPTIONAL
+
+}
+
+EGSNPDPRecord 	::= SET
+{
+	recordType					 [0] RecordType,
+	networkInitiation			 [1] NetworkInitiatedPDPContext OPTIONAL,
+	servedIMSI					 [3] IMSI,
+	ggsnAddress					 [4] GSNAddress,
+	chargingID					 [5] ChargingID,
+	sgsnAddress					 [6] SEQUENCE OF GSNAddress,
+	accessPointNameNI			 [7] AccessPointNameNI OPTIONAL,
+	pdpType						 [8] PDPType OPTIONAL,
+	servedPDPAddress			 [9] PDPAddress OPTIONAL,
+	dynamicAddressFlag			 [11] DynamicAddressFlag OPTIONAL,
+	listOfTrafficVolumes		 [12] SEQUENCE OF ChangeOfCharCondition OPTIONAL,
+	recordOpeningTime			 [13] TimeStamp,
+	duration					 [14] CallDuration,
+	causeForRecClosing			 [15] CauseForRecClosing,
+	diagnostics					 [16] Diagnostics OPTIONAL,
+	recordSequenceNumber		 [17] INTEGER OPTIONAL,
+	nodeID						 [18] NodeID OPTIONAL,
+	recordExtensions			 [19] ManagementExtensions OPTIONAL,
+	localSequenceNumber			 [20] LocalSequenceNumber OPTIONAL,
+	apnSelectionMode			 [21] APNSelectionMode OPTIONAL,
+	servedMSISDN				 [22] MSISDN OPTIONAL,
+	chargingCharacteristics		 [23] ChargingCharacteristics,
+	chChSelectionMode			 [24] ChChSelectionMode OPTIONAL,
+	iMSsignalingContext			 [25] NULL OPTIONAL,
+	externalChargingID			 [26] OCTET STRING OPTIONAL,
+	sgsnPLMNIdentifier			 [27] PLMN-Id OPTIONAL,
+	pSFurnishChargingInformation [28] PSFurnishChargingInformation OPTIONAL,
+	servedIMEISV				 [29] IMEI OPTIONAL,
+	rATType						 [30] RATType OPTIONAL,
+	mSTimeZone 					 [31] MSTimeZone OPTIONAL,
+	userLocationInformation		 [32] OCTET STRING OPTIONAL,
+	cAMELChargingInformation	 [33] OCTET STRING OPTIONAL,
+	listOfServiceData			 [34] SEQUENCE OF ChangeOfServiceCondition OPTIONAL
 }
 
 SGWRecord 	::= SET
