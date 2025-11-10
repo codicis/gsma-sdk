@@ -9,20 +9,20 @@
 #.END
 
 #.MODULE
-#MAP-BS-Code             gsm_map
-#MAP-TS-Code             gsm_map
-#MAP-SS-Code             gsm_map
-#MAP-ExtensionDataTypes  gsm_map
-#MAP-CommonDataTypes     gsm_map
+MAP-BS-Code             gsm_map
+MAP-TS-Code             gsm_map
+MAP-SS-Code             gsm_map
+MAP-ExtensionDataTypes  gsm_map
+MAP-CommonDataTypes     gsm_map
 
-#MAP-SS-DataTypes        gsm_map.ss
-#MAP-OM-DataTypes        gsm_map.om
-#MAP-ER-DataTypes        gsm_map.er
-#MAP-SM-DataTypes        gsm_map.sm
-#MAP-MS-DataTypes        gsm_map.ms
-#MAP-LCS-DataTypes       gsm_map.lcs
-#MAP-GR-DataTypes        gsm_map.gr
-#MAP-CH-DataTypes        gsm_map.ch
+MAP-SS-DataTypes        gsm_map.ss
+MAP-OM-DataTypes        gsm_map.om
+MAP-ER-DataTypes        gsm_map.er
+MAP-SM-DataTypes        gsm_map.sm
+MAP-MS-DataTypes        gsm_map.ms
+MAP-LCS-DataTypes       gsm_map.lcs
+MAP-GR-DataTypes        gsm_map.gr
+MAP-CH-DataTypes        gsm_map.ch
 
 MAP-Errors              gsm_map
 MAP-LocationServiceOperations   gsm_map

@@ -1,0 +1,574 @@
+--    Expanded ASN1 Module 'GenericChargingDataTypes'    
+--SIEMENS ASN.1 Compiler         R6.31  (Production_6.31)    
+--            Date: 2020-10-02 Time: 16:03:09            
+
+GenericChargingDataTypes{ itu-t (0) identified-organization (4) etsi (0) mobileDomain (0) charging (5) genericChargingDataTypes (0) asn1Module (0) version2 (1) }
+
+DEFINITIONS
+
+::=
+
+BEGIN
+
+BCDDirectoryNumber ::= OCTET STRING
+
+CallDuration ::= INTEGER
+
+CalledNumber ::= OCTET STRING
+
+CallingNumber ::= OCTET STRING
+
+CellId     ::= OCTET STRING ( SIZE( 2 ) )
+
+ChargeIndicator ::= INTEGER {
+   noCharge    ( 0 ), 
+   charge      ( 1 )}
+
+CauseForRecClosing ::= INTEGER {
+   normalRelease                    ( 0 ), 
+   abnormalRelease                  ( 4 ), 
+   cAMELInitCallRelease             ( 5 ), 
+   volumeLimit                      ( 16 ), 
+   timeLimit                        ( 17 ), 
+   servingNodeChange                ( 18 ), 
+   maxChangeCond                    ( 19 ), 
+   managementIntervention           ( 20 ), 
+   intraSGSNIntersystemChange       ( 21 ), 
+   rATChange                        ( 22 ), 
+   mSTimeZoneChange                 ( 23 ), 
+   sGSNPLMNIDChange                 ( 24 ), 
+   sGWChange                        ( 25 ), 
+   aPNAMBRChange                    ( 26 ), 
+   mOExceptionDataCounterReceipt    ( 27 ), 
+   unauthorizedRequestingNetwork    ( 52 ), 
+   unauthorizedLCSClient            ( 53 ), 
+   positionMethodFailure            ( 54 ), 
+   unknownOrUnreachableLCSClient    ( 58 ), 
+   listofDownstreamNodeChange       ( 59 )}
+
+CauseForTerm ::= INTEGER {
+   normalRelease                       ( 0 ), 
+   partialRecord                       ( 1 ), 
+   partialRecordCallReestablishment    ( 2 ), 
+   unsuccessfulCallAttempt             ( 3 ), 
+   abnormalRelease                     ( 4 ), 
+   cAMELInitCallRelease                ( 5 ), 
+   unauthorizedRequestingNetwork       ( 52 ), 
+   unauthorizedLCSClient               ( 53 ), 
+   positionMethodFailure               ( 54 ), 
+   unknownOrUnreachableLCSClient       ( 58 )}
+
+ChargingID ::= INTEGER ( 0 .. 4294967295 )
+
+CivicAddressInformation ::= OCTET STRING
+
+CNIPMulticastDistribution ::= ENUMERATED {
+   nO-IP-MULTICAST    ( 0 ), 
+   iP-MULTICAST       ( 1 ) }
+
+DataVolumeOctets ::= INTEGER
+
+DynamicAddressFlag ::= BOOLEAN
+
+Diagnostics ::= CHOICE {
+   gsm0408Cause                                [0] IMPLICIT INTEGER, 
+   gsm0902MapErrorValue                        [1] IMPLICIT INTEGER, 
+   itu-tQ767Cause                              [2] IMPLICIT INTEGER, 
+   networkSpecificCause                        [3] IMPLICIT SEQUENCE {
+      identifier     DMI-EXTENSION .&id  ( {
+         , 
+         ...} ) , 
+      significance   [1] IMPLICIT BOOLEAN DEFAULT FALSE, 
+      information    [2] DMI-EXTENSION .&Value  ( {
+         , 
+         ...} { @.identifier   }  ) }, 
+   manufacturerSpecificCause                   [4] IMPLICIT SEQUENCE {
+      identifier     DMI-EXTENSION .&id  ( {
+         , 
+         ...} ) , 
+      significance   [1] IMPLICIT BOOLEAN DEFAULT FALSE, 
+      information    [2] DMI-EXTENSION .&Value  ( {
+         , 
+         ...} { @.identifier   }  ) }, 
+   positionMethodFailureCause                  [5] IMPLICIT ENUMERATED {
+      congestion                                  ( 0 ), 
+      insufficientResources                       ( 1 ), 
+      insufficientMeasurementData                 ( 2 ), 
+      inconsistentMeasurementData                 ( 3 ), 
+      locationProcedureNotCompleted               ( 4 ), 
+      locationProcedureNotSupportedByTargetMS     ( 5 ), 
+      qoSNotAttainable                            ( 6 ), 
+      positionMethodNotAvailableInNetwork         ( 7 ), 
+      positionMethodNotAvailableInLocationArea    ( 8 ), 
+      ...  }, 
+   unauthorizedLCSClientCause                  [6] IMPLICIT ENUMERATED {
+      noAdditionalInformation                           ( 0 ), 
+      clientNotInMSPrivacyExceptionList                 ( 1 ), 
+      callToClientNotSetup                              ( 2 ), 
+      privacyOverrideNotApplicable                      ( 3 ), 
+      disallowedByLocalRegulatoryRequirements           ( 4 ), 
+      ... , 
+      unauthorizedPrivacyClass                          ( 5 ), 
+      unauthorizedCallSessionUnrelatedExternalClient    ( 6 ), 
+      unauthorizedCallSessionRelatedExternalClient      ( 7 ) }, 
+   diameterResultCodeAndExperimentalResult     [7] IMPLICIT INTEGER}
+
+DiameterIdentity ::= OCTET STRING
+
+EnhancedDiagnostics ::= SEQUENCE {
+   rANNASCause   [0] IMPLICIT SEQUENCE  OF
+      OCTET STRING}
+
+GSNAddress ::= CHOICE {
+   iPBinaryAddress              CHOICE {
+      iPBinV4Address     [0] IMPLICIT OCTET STRING ( SIZE( 4 ) ), 
+      iPBinV6Address     CHOICE {
+         iPBinV6Address               [1] IMPLICIT OCTET STRING ( SIZE( 16 ) ), 
+         iPBinV6AddressWithPrefix     [4] IMPLICIT SEQUENCE {
+            iPBinV6Address           OCTET STRING ( SIZE( 16 ) ), 
+            pDPAddressPrefixLength   INTEGER ( 1 .. 64 ) DEFAULT 64}}}, 
+   iPTextRepresentedAddress     CHOICE {
+      iPTextV4Address     [2] IMPLICIT IA5String  ( SIZE( 7 .. 15 ) ), 
+      iPTextV6Address     [3] IMPLICIT IA5String  ( SIZE( 15 .. 45 ) )}}
+
+InvolvedParty ::= CHOICE {
+   sIP-URI       [0] IMPLICIT GraphicString, 
+   tEL-URI       [1] IMPLICIT GraphicString, 
+   uRN           [2] IMPLICIT GraphicString, 
+   iSDN-E164     [3] IMPLICIT GraphicString}
+
+IPAddress  ::= CHOICE {
+   iPBinaryAddress              CHOICE {
+      iPBinV4Address     [0] IMPLICIT OCTET STRING ( SIZE( 4 ) ), 
+      iPBinV6Address     CHOICE {
+         iPBinV6Address               [1] IMPLICIT OCTET STRING ( SIZE( 16 ) ), 
+         iPBinV6AddressWithPrefix     [4] IMPLICIT SEQUENCE {
+            iPBinV6Address           OCTET STRING ( SIZE( 16 ) ), 
+            pDPAddressPrefixLength   INTEGER ( 1 .. 64 ) DEFAULT 64}}}, 
+   iPTextRepresentedAddress     CHOICE {
+      iPTextV4Address     [2] IMPLICIT IA5String  ( SIZE( 7 .. 15 ) ), 
+      iPTextV6Address     [3] IMPLICIT IA5String  ( SIZE( 15 .. 45 ) )}}
+
+IPBinaryAddress ::= CHOICE {
+   iPBinV4Address     [0] IMPLICIT OCTET STRING ( SIZE( 4 ) ), 
+   iPBinV6Address     CHOICE {
+      iPBinV6Address               [1] IMPLICIT OCTET STRING ( SIZE( 16 ) ), 
+      iPBinV6AddressWithPrefix     [4] IMPLICIT SEQUENCE {
+         iPBinV6Address           OCTET STRING ( SIZE( 16 ) ), 
+         pDPAddressPrefixLength   INTEGER ( 1 .. 64 ) DEFAULT 64}}}
+
+IPBinV4Address ::= OCTET STRING ( SIZE( 4 ) )
+
+IPBinV6Address ::= OCTET STRING ( SIZE( 16 ) )
+
+IPBinV6AddressWithOrWithoutPrefixLength ::= CHOICE {
+   iPBinV6Address               [1] IMPLICIT OCTET STRING ( SIZE( 16 ) ), 
+   iPBinV6AddressWithPrefix     [4] IMPLICIT SEQUENCE {
+      iPBinV6Address           OCTET STRING ( SIZE( 16 ) ), 
+      pDPAddressPrefixLength   INTEGER ( 1 .. 64 ) DEFAULT 64}}
+
+IPBinV6AddressWithPrefixLength ::= SEQUENCE {
+   iPBinV6Address           OCTET STRING ( SIZE( 16 ) ), 
+   pDPAddressPrefixLength   INTEGER ( 1 .. 64 ) DEFAULT 64}
+
+IPTextRepresentedAddress ::= CHOICE {
+   iPTextV4Address     [2] IMPLICIT IA5String  ( SIZE( 7 .. 15 ) ), 
+   iPTextV6Address     [3] IMPLICIT IA5String  ( SIZE( 15 .. 45 ) )}
+
+LCSCause   ::= OCTET STRING ( SIZE( 1 ) )
+
+LCSClientIdentity ::= SEQUENCE {
+   lcsClientExternalID   [0] IMPLICIT SEQUENCE {
+      externalAddress      [0] IMPLICIT OCTET STRING ( SIZE( 1 .. 20 ) ) ( SIZE( 1 .. 9 ) ) OPTIONAL, 
+      extensionContainer   [1] IMPLICIT SEQUENCE {
+         privateExtensionList   [0] IMPLICIT SEQUENCE  ( SIZE( 1 .. 10 ) ) OF
+            SEQUENCE {
+               extId      MAP-EXTENSION .&extensionId  ( {
+                  , 
+                  ...} ) , 
+               extType    MAP-EXTENSION .&ExtensionType  ( {
+                  , 
+                  ...} { @extId   }  )  OPTIONAL} OPTIONAL, 
+         pcs-Extensions         [1] IMPLICIT SEQUENCE {
+            ... } OPTIONAL, 
+         ... } OPTIONAL, 
+      ... } OPTIONAL, 
+   lcsClientDialedByMS   [1] IMPLICIT OCTET STRING ( SIZE( 1 .. 20 ) ) OPTIONAL, 
+   lcsClientInternalID   [2] IMPLICIT ENUMERATED {
+      broadcastService             ( 0 ), 
+      o-andM-HPLMN                 ( 1 ), 
+      o-andM-VPLMN                 ( 2 ), 
+      anonymousLocation            ( 3 ), 
+      targetMSsubscribedService    ( 4 ), 
+      ...  } OPTIONAL}
+
+LCSQoSInfo ::= OCTET STRING ( SIZE( 4 ) )
+
+LevelOfCAMELService ::= BIT STRING {
+   basic  (0 ), 
+   callDurationSupervision  (1 ), 
+   onlineCharging  (2 )}
+
+LocalSequenceNumber ::= INTEGER ( 0 .. 4294967295 )
+
+LocationAreaAndCell ::= SEQUENCE {
+   locationAreaCode   [0] IMPLICIT OCTET STRING ( SIZE( 2 ) ), 
+   cellId             [1] IMPLICIT OCTET STRING ( SIZE( 2 ) ), 
+   mCC-MNC            [2] IMPLICIT OCTET STRING ( SIZE( 3 ) ) OPTIONAL}
+
+LocationAreaCode ::= OCTET STRING ( SIZE( 2 ) )
+
+ManagementExtensions ::= SET  OF
+   SEQUENCE {
+      identifier     DMI-EXTENSION .&id  ( {
+         , 
+         ...} ) , 
+      significance   [1] IMPLICIT BOOLEAN DEFAULT FALSE, 
+      information    [2] DMI-EXTENSION .&Value  ( {
+         , 
+         ...} { @.identifier   }  ) }
+
+MBMS2G3GIndicator ::= ENUMERATED {
+   twoG               ( 0 ), 
+   threeG             ( 1 ), 
+   twoG-AND-threeG    ( 2 ) }
+
+MBMSInformation ::= SET {
+   tMGI                        [1] IMPLICIT OCTET STRING OPTIONAL, 
+   mBMSSessionIdentity         [2] IMPLICIT OCTET STRING ( SIZE( 1 ) ) OPTIONAL, 
+   mBMSServiceType             [3] IMPLICIT ENUMERATED {
+      mULTICAST    ( 0 ), 
+      bROADCAST    ( 1 ) } OPTIONAL, 
+   mBMSUserServiceType         [4] IMPLICIT ENUMERATED {
+      dOWNLOAD     ( 0 ), 
+      sTREAMING    ( 1 ) } OPTIONAL, 
+   mBMS2G3GIndicator           [5] IMPLICIT ENUMERATED {
+      twoG               ( 0 ), 
+      threeG             ( 1 ), 
+      twoG-AND-threeG    ( 2 ) } OPTIONAL, 
+   fileRepairSupported         [6] IMPLICIT BOOLEAN OPTIONAL, 
+   rAI                         [7] IMPLICIT OCTET STRING ( SIZE( 1 ) ) OPTIONAL, 
+   mBMSServiceArea             [8] IMPLICIT OCTET STRING OPTIONAL, 
+   requiredMBMSBearerCaps      [9] IMPLICIT OCTET STRING ( SIZE( 3 .. 14 ) ) OPTIONAL, 
+   mBMSGWAddress               [10] CHOICE {
+      iPBinaryAddress              CHOICE {
+         iPBinV4Address     [0] IMPLICIT OCTET STRING ( SIZE( 4 ) ), 
+         iPBinV6Address     CHOICE {
+            iPBinV6Address               [1] IMPLICIT OCTET STRING ( SIZE( 16 ) ), 
+            iPBinV6AddressWithPrefix     [4] IMPLICIT SEQUENCE {
+               iPBinV6Address           OCTET STRING ( SIZE( 16 ) ), 
+               pDPAddressPrefixLength   INTEGER ( 1 .. 64 ) DEFAULT 64}}}, 
+      iPTextRepresentedAddress     CHOICE {
+         iPTextV4Address     [2] IMPLICIT IA5String  ( SIZE( 7 .. 15 ) ), 
+         iPTextV6Address     [3] IMPLICIT IA5String  ( SIZE( 15 .. 45 ) )}} OPTIONAL, 
+   cNIPMulticastDistribution   [11] IMPLICIT ENUMERATED {
+      nO-IP-MULTICAST    ( 0 ), 
+      iP-MULTICAST       ( 1 ) } OPTIONAL, 
+   mBMSDataTransferStart       [12] IMPLICIT OCTET STRING ( SIZE( 8 ) ) OPTIONAL, 
+   mBMSDataTransferStop        [13] IMPLICIT OCTET STRING ( SIZE( 8 ) ) OPTIONAL}
+
+MBMSServiceArea ::= OCTET STRING
+
+MBMSServiceType ::= ENUMERATED {
+   mULTICAST    ( 0 ), 
+   bROADCAST    ( 1 ) }
+
+MBMSSessionIdentity ::= OCTET STRING ( SIZE( 1 ) )
+
+MBMSTime   ::= OCTET STRING ( SIZE( 8 ) )
+
+MBMSUserServiceType ::= ENUMERATED {
+   dOWNLOAD     ( 0 ), 
+   sTREAMING    ( 1 ) }
+
+MCC-MNC    ::= OCTET STRING ( SIZE( 3 ) )
+
+MessageClass ::= ENUMERATED {
+   personal               ( 0 ), 
+   advertisement          ( 1 ), 
+   information-service    ( 2 ), 
+   auto                   ( 3 ) }
+
+MessageReference ::= OCTET STRING
+
+MSCAddress ::= OCTET STRING ( SIZE( 1 .. 20 ) )
+
+MscNo      ::= OCTET STRING ( SIZE( 1 .. 20 ) ) ( SIZE( 1 .. 9 ) )
+
+MSISDN     ::= OCTET STRING ( SIZE( 1 .. 20 ) ) ( SIZE( 1 .. 9 ) )
+
+MSTimeZone ::= OCTET STRING ( SIZE( 2 ) )
+
+NodeID     ::= IA5String  ( SIZE( 1 .. 20 ) )
+
+NodeAddress ::= CHOICE {
+   iPAddress      [0] CHOICE {
+      iPBinaryAddress              CHOICE {
+         iPBinV4Address     [0] IMPLICIT OCTET STRING ( SIZE( 4 ) ), 
+         iPBinV6Address     CHOICE {
+            iPBinV6Address               [1] IMPLICIT OCTET STRING ( SIZE( 16 ) ), 
+            iPBinV6AddressWithPrefix     [4] IMPLICIT SEQUENCE {
+               iPBinV6Address           OCTET STRING ( SIZE( 16 ) ), 
+               pDPAddressPrefixLength   INTEGER ( 1 .. 64 ) DEFAULT 64}}}, 
+      iPTextRepresentedAddress     CHOICE {
+         iPTextV4Address     [2] IMPLICIT IA5String  ( SIZE( 7 .. 15 ) ), 
+         iPTextV6Address     [3] IMPLICIT IA5String  ( SIZE( 15 .. 45 ) )}}, 
+   domainName     [1] IMPLICIT GraphicString}
+
+PDPAddressPrefixLength ::= INTEGER ( 1 .. 64 )
+
+PDPAddress ::= CHOICE {
+   iPAddress     [0] CHOICE {
+      iPBinaryAddress              CHOICE {
+         iPBinV4Address     [0] IMPLICIT OCTET STRING ( SIZE( 4 ) ), 
+         iPBinV6Address     CHOICE {
+            iPBinV6Address               [1] IMPLICIT OCTET STRING ( SIZE( 16 ) ), 
+            iPBinV6AddressWithPrefix     [4] IMPLICIT SEQUENCE {
+               iPBinV6Address           OCTET STRING ( SIZE( 16 ) ), 
+               pDPAddressPrefixLength   INTEGER ( 1 .. 64 ) DEFAULT 64}}}, 
+      iPTextRepresentedAddress     CHOICE {
+         iPTextV4Address     [2] IMPLICIT IA5String  ( SIZE( 7 .. 15 ) ), 
+         iPTextV6Address     [3] IMPLICIT IA5String  ( SIZE( 15 .. 45 ) )}}}
+
+PLMN-Id    ::= OCTET STRING ( SIZE( 3 ) )
+
+PositioningData ::= OCTET STRING ( SIZE( 1 .. 33 ) )
+
+PriorityType ::= ENUMERATED {
+   low         ( 0 ), 
+   normal      ( 1 ), 
+   high        ( 2 ) }
+
+RANNASCause ::= OCTET STRING
+
+RATType    ::= INTEGER ( 0 .. 255 )
+
+RecordingEntity ::= OCTET STRING ( SIZE( 1 .. 20 ) )
+
+RecordType ::= INTEGER {
+   moCallRecord              ( 0 ), 
+   mtCallRecord              ( 1 ), 
+   roamingRecord             ( 2 ), 
+   incGatewayRecord          ( 3 ), 
+   outGatewayRecord          ( 4 ), 
+   transitCallRecord         ( 5 ), 
+   moSMSRecord               ( 6 ), 
+   mtSMSRecord               ( 7 ), 
+   moSMSIWRecord             ( 8 ), 
+   mtSMSGWRecord             ( 9 ), 
+   ssActionRecord            ( 10 ), 
+   hlrIntRecord              ( 11 ), 
+   locUpdateHLRRecord        ( 12 ), 
+   locUpdateVLRRecord        ( 13 ), 
+   commonEquipRecord         ( 14 ), 
+   moTraceRecord             ( 15 ), 
+   mtTraceRecord             ( 16 ), 
+   termCAMELRecord           ( 17 ), 
+   sgsnPDPRecord             ( 18 ), 
+   sgsnMMRecord              ( 20 ), 
+   sgsnSMORecord             ( 21 ), 
+   sgsnSMTRecord             ( 22 ), 
+   mtLCSRecord               ( 23 ), 
+   moLCSRecord               ( 24 ), 
+   niLCSRecord               ( 25 ), 
+   sgsnMTLCSRecord           ( 26 ), 
+   sgsnMOLCSRecord           ( 27 ), 
+   sgsnNILCSRecord           ( 28 ), 
+   mMO1SRecord               ( 30 ), 
+   mMO4FRqRecord             ( 31 ), 
+   mMO4FRsRecord             ( 32 ), 
+   mMO4DRecord               ( 33 ), 
+   mMO1DRecord               ( 34 ), 
+   mMO4RRecord               ( 35 ), 
+   mMO1RRecord               ( 36 ), 
+   mMOMDRecord               ( 37 ), 
+   mMR4FRecord               ( 38 ), 
+   mMR1NRqRecord             ( 39 ), 
+   mMR1NRsRecord             ( 40 ), 
+   mMR1RtRecord              ( 41 ), 
+   mMR1AFRecord              ( 42 ), 
+   mMR4DRqRecord             ( 43 ), 
+   mMR4DRsRecord             ( 44 ), 
+   mMR1RRRecord              ( 45 ), 
+   mMR4RRqRecord             ( 46 ), 
+   mMR4RRsRecord             ( 47 ), 
+   mMRMDRecord               ( 48 ), 
+   mMFRecord                 ( 49 ), 
+   mMBx1SRecord              ( 50 ), 
+   mMBx1VRecord              ( 51 ), 
+   mMBx1URecord              ( 52 ), 
+   mMBx1DRecord              ( 53 ), 
+   mM7SRecord                ( 54 ), 
+   mM7DRqRecord              ( 55 ), 
+   mM7DRsRecord              ( 56 ), 
+   mM7CRecord                ( 57 ), 
+   mM7RRecord                ( 58 ), 
+   mM7DRRqRecord             ( 59 ), 
+   mM7DRRsRecord             ( 60 ), 
+   mM7RRqRecord              ( 61 ), 
+   mM7RRsRecord              ( 62 ), 
+   sCSCFRecord               ( 63 ), 
+   pCSCFRecord               ( 64 ), 
+   iCSCFRecord               ( 65 ), 
+   mRFCRecord                ( 66 ), 
+   mGCFRecord                ( 67 ), 
+   bGCFRecord                ( 68 ), 
+   aSRecord                  ( 69 ), 
+   eCSCFRecord               ( 70 ), 
+   iBCFRecord                ( 82 ), 
+   tRFRecord                 ( 89 ), 
+   tFRecord                  ( 90 ), 
+   aTCFRecord                ( 91 ), 
+   lCSGMORecord              ( 71 ), 
+   lCSRGMTRecord             ( 72 ), 
+   lCSHGMTRecord             ( 73 ), 
+   lCSVGMTRecord             ( 74 ), 
+   lCSGNIRecord              ( 75 ), 
+   sgsnMBMSRecord            ( 76 ), 
+   ggsnMBMSRecord            ( 77 ), 
+   gwMBMSRecord              ( 86 ), 
+   sUBBMSCRecord             ( 78 ), 
+   cONTENTBMSCRecord         ( 79 ), 
+   pPFRecord                 ( 80 ), 
+   cPFRecord                 ( 81 ), 
+   sGWRecord                 ( 84 ), 
+   pGWRecord                 ( 85 ), 
+   tDFRecord                 ( 92 ), 
+   iPERecord                 ( 95 ), 
+   ePDGRecord                ( 96 ), 
+   tWAGRecord                ( 97 ), 
+   mMTelRecord               ( 83 ), 
+   mSCsRVCCRecord            ( 87 ), 
+   mMTRFRecord               ( 88 ), 
+   iCSRegisterRecord         ( 99 ), 
+   sCSMORecord               ( 93 ), 
+   sCSMTRecord               ( 94 ), 
+   pFDDRecord                ( 100 ), 
+   pFEDRecord                ( 101 ), 
+   pFDCRecord                ( 102 ), 
+   mECORecord                ( 103 ), 
+   mERERecord                ( 104 ), 
+   cPDTSCERecord             ( 105 ), 
+   cPDTSNNRecord             ( 106 ), 
+   sCDVTT4Record             ( 110 ), 
+   sCSMOT4Record             ( 111 ), 
+   iSMSMORecord              ( 112 ), 
+   iSMSMTRecord              ( 113 ), 
+   eASCERecord               ( 120 ), 
+   chargingFunctionRecord    ( 200 )}
+
+RequiredMBMSBearerCapabilities ::= OCTET STRING ( SIZE( 3 .. 14 ) )
+
+RoutingAreaCode ::= OCTET STRING ( SIZE( 1 ) )
+
+SCSASAddress ::= SET {
+   sCSAddress   [1] CHOICE {
+      iPBinaryAddress              CHOICE {
+         iPBinV4Address     [0] IMPLICIT OCTET STRING ( SIZE( 4 ) ), 
+         iPBinV6Address     CHOICE {
+            iPBinV6Address               [1] IMPLICIT OCTET STRING ( SIZE( 16 ) ), 
+            iPBinV6AddressWithPrefix     [4] IMPLICIT SEQUENCE {
+               iPBinV6Address           OCTET STRING ( SIZE( 16 ) ), 
+               pDPAddressPrefixLength   INTEGER ( 1 .. 64 ) DEFAULT 64}}}, 
+      iPTextRepresentedAddress     CHOICE {
+         iPTextV4Address     [2] IMPLICIT IA5String  ( SIZE( 7 .. 15 ) ), 
+         iPTextV6Address     [3] IMPLICIT IA5String  ( SIZE( 15 .. 45 ) )}}, 
+   sCSRealm     [2] IMPLICIT OCTET STRING}
+
+Session-Id ::= GraphicString
+
+ServiceContextID ::= UTF8String
+
+ServiceSpecificInfo ::= SEQUENCE {
+   serviceSpecificData   [0] IMPLICIT GraphicString OPTIONAL, 
+   serviceSpecificType   [1] IMPLICIT INTEGER OPTIONAL}
+
+SMSResult  ::= CHOICE {
+   gsm0408Cause                                [0] IMPLICIT INTEGER, 
+   gsm0902MapErrorValue                        [1] IMPLICIT INTEGER, 
+   itu-tQ767Cause                              [2] IMPLICIT INTEGER, 
+   networkSpecificCause                        [3] IMPLICIT SEQUENCE {
+      identifier     DMI-EXTENSION .&id  ( {
+         , 
+         ...} ) , 
+      significance   [1] IMPLICIT BOOLEAN DEFAULT FALSE, 
+      information    [2] DMI-EXTENSION .&Value  ( {
+         , 
+         ...} { @.identifier   }  ) }, 
+   manufacturerSpecificCause                   [4] IMPLICIT SEQUENCE {
+      identifier     DMI-EXTENSION .&id  ( {
+         , 
+         ...} ) , 
+      significance   [1] IMPLICIT BOOLEAN DEFAULT FALSE, 
+      information    [2] DMI-EXTENSION .&Value  ( {
+         , 
+         ...} { @.identifier   }  ) }, 
+   positionMethodFailureCause                  [5] IMPLICIT ENUMERATED {
+      congestion                                  ( 0 ), 
+      insufficientResources                       ( 1 ), 
+      insufficientMeasurementData                 ( 2 ), 
+      inconsistentMeasurementData                 ( 3 ), 
+      locationProcedureNotCompleted               ( 4 ), 
+      locationProcedureNotSupportedByTargetMS     ( 5 ), 
+      qoSNotAttainable                            ( 6 ), 
+      positionMethodNotAvailableInNetwork         ( 7 ), 
+      positionMethodNotAvailableInLocationArea    ( 8 ), 
+      ...  }, 
+   unauthorizedLCSClientCause                  [6] IMPLICIT ENUMERATED {
+      noAdditionalInformation                           ( 0 ), 
+      clientNotInMSPrivacyExceptionList                 ( 1 ), 
+      callToClientNotSetup                              ( 2 ), 
+      privacyOverrideNotApplicable                      ( 3 ), 
+      disallowedByLocalRegulatoryRequirements           ( 4 ), 
+      ... , 
+      unauthorizedPrivacyClass                          ( 5 ), 
+      unauthorizedCallSessionUnrelatedExternalClient    ( 6 ), 
+      unauthorizedCallSessionRelatedExternalClient      ( 7 ) }, 
+   diameterResultCodeAndExperimentalResult     [7] IMPLICIT INTEGER}
+
+SmsTpDestinationNumber ::= OCTET STRING
+
+SubscriberEquipmentNumber ::= SET {
+   subscriberEquipmentNumberType   [0] IMPLICIT ENUMERATED {
+      iMEISV           ( 0 ), 
+      mAC              ( 1 ), 
+      eUI64            ( 2 ), 
+      modifiedEUI64    ( 3 ) }, 
+   subscriberEquipmentNumberData   [1] IMPLICIT OCTET STRING}
+
+SubscriberEquipmentType ::= ENUMERATED {
+   iMEISV           ( 0 ), 
+   mAC              ( 1 ), 
+   eUI64            ( 2 ), 
+   modifiedEUI64    ( 3 ) }
+
+SubscriptionID ::= SET {
+   subscriptionIDType   [0] IMPLICIT ENUMERATED {
+      eND-USER-E164       ( 0 ), 
+      eND-USER-IMSI       ( 1 ), 
+      eND-USER-SIP-URI    ( 2 ), 
+      eND-USER-NAI        ( 3 ), 
+      eND-USER-PRIVATE    ( 4 ) }, 
+   subscriptionIDData   [1] IMPLICIT UTF8String}
+
+SubscriptionIDType ::= ENUMERATED {
+   eND-USER-E164       ( 0 ), 
+   eND-USER-IMSI       ( 1 ), 
+   eND-USER-SIP-URI    ( 2 ), 
+   eND-USER-NAI        ( 3 ), 
+   eND-USER-PRIVATE    ( 4 ) }
+
+SystemType ::= ENUMERATED {
+   unknown     ( 0 ), 
+   iuUTRAN     ( 1 ), 
+   gERAN       ( 2 ) }
+
+ThreeGPPPSDataOffStatus ::= ENUMERATED {
+   active      ( 0 ), 
+   inactive    ( 1 ) }
+
+TimeStamp  ::= OCTET STRING ( SIZE( 9 ) )
+
+TMGI       ::= OCTET STRING
+
+END

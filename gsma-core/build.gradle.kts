@@ -17,6 +17,13 @@ asn1 {
             outputDir.set(layout.buildDirectory.dir("generated/sources/asn1/$name"))
         }
     }
+    model {
+        register("compileGprsCdr") {
+            packageName.set("io.github.codicis.gsma")
+            sourceFiles.from(fileTree("src/main/asn1/gprscdr"))
+            outputDir.set(layout.buildDirectory.dir("generated/sources/asn1/$name"))
+        }
+    }
 }
 
 dependencies {
