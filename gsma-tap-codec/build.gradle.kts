@@ -7,13 +7,14 @@ plugins {
 }
 
 group = "io.github.codicis.gsma-sdk"
-version = "0.1.3"
+version = "0.2.0-SNAPSHOT"
 
 dependencies {
     api(libs.asn1.bean)
 }
 
 asn1 {
+    version.set(libs.asn1.bean.get().version)
     model {
         register("compileAsnTap") {
             packageName.set("io.github.codicis.gsma")

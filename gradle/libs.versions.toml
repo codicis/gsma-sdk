@@ -5,7 +5,7 @@ google-auto-service = "1.1.1"
 javapoetVersion = "1.13.0"
 
 [libraries]
-asn1-bean = { module = "com.beanit:asn1bean", version = "1.14.0" }
+asn1-bean = { module = "com.beanit:asn1bean", version = "1.16.0" }
 
 google-auto-service-annotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "google-auto-service" }
 google-auto-service = { module = "com.google.auto.service:auto-service", version.ref = "google-auto-service" }
